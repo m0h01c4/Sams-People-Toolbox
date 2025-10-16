@@ -1659,6 +1659,9 @@
             elements.gameOver.style.display = 'none';
             elements.totalQuestions.textContent = gameData.questions.length;
 
+            // Scroll to top when starting game
+            scrollToTop();
+
             loadQuestion();
             updateDisplay();
         }
@@ -1758,6 +1761,8 @@
         }
 
         function restartGame() {
+            // Scroll to top when restarting
+            scrollToTop();
             startGame();
         }
 
@@ -1771,6 +1776,18 @@
         }
 
         // New functions for toolbox reveal
+        // Utility function to scroll to top of page
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
+            // Fallback for older browsers
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+
         function revealTool() {
             const userId = document.getElementById('user-id').value.trim();
             
@@ -1802,6 +1819,9 @@
             // Hide instructions modal and show toolbox
             document.getElementById('instructions-modal').style.display = 'none';
             document.getElementById('toolbox-screen').style.display = 'block';
+            
+            // Scroll to top when showing new screen
+            scrollToTop();
             
             // Automatically trigger toolbox opening after a brief delay
             setTimeout(() => {
@@ -1867,6 +1887,9 @@
             document.getElementById('toolbox-screen').style.display = 'none';
             document.getElementById('main-game').style.display = 'block';
             
+            // Scroll to top when showing new screen
+            scrollToTop();
+            
             // Display user's name and tool in the game header
             document.getElementById('user-tool-display').innerHTML = 
                 `<strong>Welcome, ${currentUser.name}!</strong><br>
@@ -1878,6 +1901,9 @@
             document.getElementById('toolbox-screen').style.display = 'none';
             document.getElementById('main-game').style.display = 'none';
             document.getElementById('networking-game').style.display = 'block';
+            
+            // Scroll to top when showing new screen
+            scrollToTop();
             
             // Update networking game header with user info
             const networkingSubtitle = document.querySelector('#networking-game .game-subtitle');
@@ -2200,6 +2226,8 @@
 
         function restartNetworking() {
             initializeNetworkingGame();
+            // Scroll to top when restarting
+            scrollToTop();
         }
 
         function toggleScoringGuide() {
@@ -2284,6 +2312,9 @@
         function goBackToGame() {
             document.getElementById('networking-game').style.display = 'none';
             document.getElementById('main-game').style.display = 'block';
+            
+            // Scroll to top when showing new screen
+            scrollToTop();
         }
 
         // Initialize display
