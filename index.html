@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools of the Trade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Gibson', 'Helvetica Neue', 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+
+        .game-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .modal p {
+            color: #718096;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .user-id-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1em;
+            margin: 20px 0;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .user-id-input:focus {
+            outline: none;
+            border-color: #0071ce;
+            box-shadow: 0 0 0 3px rgba(0, 113, 206, 0.1);
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 113, 206, 0.4);
+        }
+
+        /* Toolbox Animation Styles */
+        .toolbox-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+
+        .toolbox {
+            position: relative;
+            width: 600px;
+            height: 500px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+            background: url('people toolbox.png') no-repeat center center;
+            background-size: contain;
+            filter: drop-shadow(0 15px 30px rgba(0, 113, 206, 0.3));
+        }
+
+        .toolbox:hover {
+            transform: translateY(-5px);
+            filter: drop-shadow(0 20px 40px rgba(0, 113, 206, 0.4));
+        }
+
+        .toolbox-clickable-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 5;
+        }
+
+        /* Hide the old lid and body elements since we're using the image */
+        .toolbox-lid {
+            display: none;
+        }
+
+        .toolbox-body {
+            display: none;
+        }
+
+        .tool-reveal {
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.5s ease 0.5s;
+        }
+
+        .tool-reveal img {
+            width: 180px;
+            height: 180px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 12px rgba(0, 113, 206, 0.3));
+            background: transparent;
+            mix-blend-mode: multiply;
+        }
+
+        .tool-reveal img[src*="multitool emoji"] {
+            background: transparent !important;
+            mix-blend-mode: normal;
+            filter: drop-shadow(0 4px 12px rgba(0, 113, 206, 0.3));
+        }
+
+        .tool-reveal:has(img[src*="wrench emoji"]) {
+            top: 60% !important;
+        }
+
+        .tool-reveal:has(img[src*="hammer emoji"]) {
+            top: 65% !important;
+        }
+
+        .tool-reveal:has(img[src*="measuring tape emoji"]) {
+            top: 65% !important;
+        }
+
+        .tool-reveal:has(img[src*="multitool emoji"]) {
+            top: 65% !important;
+            left: 53% !important;
+        }
+
+        .tool-reveal.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            animation: toolBounce 0.6s ease 0.8s;
+        }
+
+        @keyframes toolBounce {
+            0%, 20%, 50%, 80%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            40% { transform: translate(-50%, -50%) translateY(-20px); }
+            60% { transform: translate(-50%, -50%) translateY(-10px); }
+        }
+
+        .tool-name {
+            font-size: 1.5em;
+            color: #4a5568;
+            margin-top: 20px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.5s ease 1s;
+        }
+
+        .tool-name.show {
+            opacity: 1;
+        }
+
+        .tool-summary {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 25px;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border-radius: 15px;
+            border-left: 4px solid #0071ce;
+            opacity: 0;
+            transition: opacity 0.5s ease 1.5s;
+            text-align: left;
+        }
+
+        .tool-summary.show {
+            opacity: 1;
+        }
+
+        .tool-summary h3 {
+            color: #0071ce;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .tool-summary p {
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .skills-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-item {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            color: #2d3748;
+            font-size: 0.9em;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        .skill-item:hover {
+            border-color: #0071ce;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 113, 206, 0.1);
+        }
+
+        .scoring-guide {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #e2e8f0;
+        }
+
+        .guide-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #0071ce;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .guide-card ul {
+            margin: 0;
+        }
+
+        .guide-card li {
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+
+        .instructions-text {
+            max-width: 600px;
+            text-align: left;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        .instructions-text h3 {
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .instructions-text ul {
+            color: #718096;
+            padding-left: 20px;
+        }
+
+        .instructions-text li {
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .game-header {
+            margin-bottom: 30px;
+        }
+
+        .game-title {
+            font-size: 2.5em;
+            color: #0071ce;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .sams-club-logo {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sams-club-logo img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Larger logo specifically for the toolbox reveal screen */
+        #toolbox-screen .sams-club-logo img {
+            height: 80px;
+            width: auto;
+        }
+
+        .game-subtitle {
+            font-size: 1.2em;
+            color: #718096;
+            margin-bottom: 20px;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30px;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .score-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            color: #718096;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        .game-area {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question {
+            font-size: 1.3em;
+            color: #2d3748;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+
+        .answers {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .answer-btn {
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 113, 206, 0.3);
+        }
+
+        .answer-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 113, 206, 0.4);
+        }
+
+        .answer-btn.correct {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            animation: correctAnswer 0.5s ease;
+        }
+
+        .answer-btn.incorrect {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            animation: incorrectAnswer 0.5s ease;
+        }
+
+        @keyframes correctAnswer {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes incorrectAnswer {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+            100% { transform: translateX(0); }
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            background: #4a5568;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: #2d3748;
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            background: #cbd5e0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .game-over {
+            display: none;
+        }
+
+        .final-score {
+            font-size: 2em;
+            color: #4a5568;
+            margin: 20px 0;
+        }
+
+        .achievement {
+            background: linear-gradient(135deg, #0071ce 0%, #ffd100 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: #e2e8f0;
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Networking Game Styles */
+        .networking-container {
+            display: none;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .networking-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .mission-card {
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .mission-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .mission-description {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .tools-tracker {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tool-card {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card.completed {
+            border-color: #48bb78;
+            background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+        }
+
+        .tool-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .tool-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #0071ce;
+            margin-bottom: 10px;
+        }
+
+        .tool-progress {
+            font-size: 1.1em;
+            color: #718096;
+            margin-bottom: 15px;
+        }
+
+        .name-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .name-input {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9em;
+            transition: border-color 0.3s ease;
+        }
+
+        .name-input:focus {
+            outline: none;
+            border-color: #0071ce;
+        }
+
+        .name-input.filled {
+            border-color: #48bb78;
+            background: #f0fff4;
+        }
+
+        .question-generator {
+            background: #f7fafc;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+        }
+
+        .question-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #0071ce;
+            margin-bottom: 20px;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .question-category {
+            font-size: 0.9em;
+            color: #0071ce;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #0071ce 0%, #004c9b 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 113, 206, 0.4);
+        }
+
+        .completion-summary {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            display: none;
+        }
+
+        .summary-title {
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .network-list {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .network-category {
+            margin-bottom: 15px;
+        }
+
+        .network-category h4 {
+            margin-bottom: 8px;
+            font-size: 1.2em;
+        }
+
+        .network-names {
+            margin-left: 20px;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 600px) {
+            .game-container {
+                padding: 20px;
+            }
+            
+            .answers {
+                grid-template-columns: 1fr;
+            }
+            
+            .score-board {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .tools-tracker {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Instructions Modal -->
+    <div class="modal-overlay" id="instructions-modal">
+        <div class="modal">
+            <h2>🧰 Welcome to Sam's Club People Team Tools of the Trade!</h2>
+            <div class="instructions-text">
+                <h3>How it works:</h3>
+                <ul>
+                    <li>Sign in below to get started</li>
+                    <li>Your assigned tool will be revealed based on your results</li>
+                </ul>
+                <h3>People Partner Tools:</h3>
+                <ul>
+                    <li><strong><img src="wrench emoji.png" alt="Wrench" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Wrench:</strong> Fix and maintain team dynamics</li>
+                    <li><strong><img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Measuring Tape:</strong> Assess and measure progress</li>
+                    <li><strong><img src="hammer emoji.png" alt="Hammer" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Hammer:</strong> Build strong foundations</li>
+                    <li><strong><img src="multitool emoji.png" alt="Multi-Tool" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Multi-Tool:</strong> Versatile problem solver</li>
+                </ul>
+            </div>
+            <input type="text" class="user-id-input" id="user-id" placeholder="Enter your User ID" maxlength="20">
+            <br>
+            <button class="modal-btn" onclick="revealTool()">Discover My Tool</button>
+        </div>
+    </div>
+
+    <!-- Toolbox Reveal Screen -->
+    <div class="game-container" id="toolbox-screen" style="display: none;">
+        <div class="game-header">
+            <div class="sams-club-logo">
+                <img src="sams people logo blue letters.png" alt="Sam's Club People Logo">
+            </div>
+            <h1 class="game-title">Your Personal Tool</h1>
+        </div>
+        
+        <div class="toolbox-container">
+            <div class="toolbox" id="toolbox" onclick="openToolbox()">
+                <div class="toolbox-clickable-overlay"></div>
+                <div class="tool-reveal" id="tool-reveal"></div>
+            </div>
+            <div class="tool-name" id="tool-name"></div>
+            
+            <div class="tool-summary" id="tool-summary">
+                <h3>Your Tool Summary</h3>
+                <p id="tool-summary-text"></p>
+                <h4 style="color: #0071ce; margin-bottom: 10px;">Key Skills & Strengths:</h4>
+                <div class="skills-list" id="skills-list"></div>
+            </div>
+            
+            <button class="control-btn" id="continue-btn" onclick="showNetworkingGame()" style="display: none; margin-top: 20px;">Continue to Tools of the Trade</button>
+        </div>
+    </div>
+
+    <!-- Main Game -->
+    <div class="game-container" id="main-game" style="display: none;">
+        <div class="game-header">
+            <div class="sams-club-logo">
+                <img src="sams people logo blue letters.png" alt="Sam's Club People Logo">
+            </div>
+            <h1 class="game-title">Tools of the Trade</h1>
+            <p class="game-subtitle">Test your knowledge and team skills!</p>
+            <div id="user-tool-display" style="margin-top: 15px; font-size: 1.1em; color: #0071ce;"></div>
+        </div>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Question</div>
+                <div class="score-value"><span id="current-question">1</span>/<span id="total-questions">10</span></div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Streak</div>
+                <div class="score-value" id="streak">0</div>
+            </div>
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress"></div>
+        </div>
+
+        <div class="game-area">
+            <div class="question-container" id="question-container">
+                <div class="question" id="question"></div>
+                <div class="answers" id="answers"></div>
+            </div>
+
+            <div class="game-over" id="game-over">
+                <h2>Game Complete!</h2>
+                <div class="final-score" id="final-score"></div>
+                <div class="achievement" id="achievement"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" id="start-btn" onclick="startGame()">Start Knowledge Quiz</button>
+            <button class="control-btn" id="next-btn" onclick="nextQuestion()" disabled>Next Question</button>
+            <button class="control-btn" id="restart-btn" onclick="restartGame()" style="display:none;">Play Again</button>
+            <button class="control-btn" id="networking-btn" onclick="showNetworkingGame()" style="display:none;">Start Tools of the Trade</button>
+            <button class="control-btn" id="email-btn" onclick="emailResults()" style="display:none; background: #38a169;">📧 Email Results</button>
+        </div>
+    </div>
+
+    <!-- Networking Game -->
+    <div class="game-container networking-container" id="networking-game">
+        <div class="networking-header">
+            <div class="sams-club-logo">
+                <img src="sams people logo blue letters.png" alt="Sam's Club People Logo">
+            </div>
+            <h1 class="game-title">Tools of the Trade</h1>
+            <p class="game-subtitle">Find your team members and build your network!</p>
+        </div>
+
+        <div class="mission-card">
+            <div class="mission-title">🎯 Your Mission</div>
+            <div class="mission-description">
+                Find <strong>2 people</strong> for each tool type by asking guided questions and networking with other participants. 
+                Complete your team roster by discovering who has each tool!<br><br>
+                <strong>⏰ Time Constraint: 20 Minutes</strong><br>
+                You have 20 minutes to network and identify all 8 team members across the 4 tool categories.
+            </div>
+        </div>
+
+        <div class="question-generator">
+            <h3 style="color: #0071ce; margin-bottom: 15px;">🤔 Question Generator</h3>
+            <p style="color: #718096; margin-bottom: 20px; font-size: 0.9em;">
+                <strong>⏰ Remember:</strong> You have 20 minutes to complete your tools of the trade challenge. Use these questions to efficiently identify each person's tool type.
+            </p>
+            <div id="current-question-card" class="question-card" style="display: none;">
+                <div class="question-category" id="question-category"></div>
+                <div class="question-text" id="networking-question"></div>
+            </div>
+            <button class="generate-btn" onclick="generateNetworkingQuestion()">Generate Question to Ask</button>
+            <button class="generate-btn" onclick="clearCurrentQuestion()" style="background: #718096;">Clear Question</button>
+            <button class="generate-btn" onclick="toggleScoringGuide()" style="background: #38a169;">View Scoring Guide</button>
+        </div>
+
+        <div class="scoring-guide" id="scoring-guide" style="display: none;">
+            <h3 style="color: #0071ce; margin-bottom: 20px;">📊 Tool Identification Guide</h3>
+            <p style="color: #718096; margin-bottom: 20px;">
+                Use these characteristics to help identify someone's tool based on their responses:
+            </p>
+            
+            <div class="guide-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div class="guide-card">
+                    <h4 style="color: #0071ce; margin-bottom: 10px;"><img src="wrench emoji.png" alt="Wrench" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle;"> The Wrench (Problem-Solver)</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 10px;"><strong>Look for people who:</strong></p>
+                    <ul style="font-size: 0.85em; color: #4a5568; padding-left: 20px;">
+                        <li>Enjoy fixing complex, broken processes</li>
+                        <li>Love creating detailed strategies</li>
+                        <li>Are drawn to data analysis and metrics</li>
+                        <li>Find creative solutions to roadblocks</li>
+                        <li>Connect dots between ideas/departments</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card">
+                    <h4 style="color: #0071ce; margin-bottom: 10px;"><img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle;"> The Measuring Tape (Communicator)</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 10px;"><strong>Look for people who:</strong></p>
+                    <ul style="font-size: 0.85em; color: #4a5568; padding-left: 20px;">
+                        <li>Offer listening ear and support</li>
+                        <li>Are skilled at mediating conflicts</li>
+                        <li>Prioritize building relationships</li>
+                        <li>Empathize with different perspectives</li>
+                        <li>Believe communication is about listening</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card">
+                    <h4 style="color: #0071ce; margin-bottom: 10px;"><img src="hammer emoji.png" alt="Hammer" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle;"> The Hammer (Implementer)</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 10px;"><strong>Look for people who:</strong></p>
+                    <ul style="font-size: 0.85em; color: #4a5568; padding-left: 20px;">
+                        <li>Ensure policies are followed precisely</li>
+                        <li>Are go-to for HR regulations/compliance</li>
+                        <li>Prefer clear rules and guidelines</li>
+                        <li>Excel at managing multiple priorities</li>
+                        <li>Enjoy precision work with numbers</li>
+                    </ul>
+                </div>
+
+                <div class="guide-card">
+                    <h4 style="color: #0071ce; margin-bottom: 10px;"><img src="multitool emoji.png" alt="Multi-Tool" style="width: 24px; height: 24px; object-fit: contain; vertical-align: middle;"> The Multi-Tool (Adapter)</h4>
+                    <p style="font-size: 0.9em; margin-bottom: 10px;"><strong>Look for people who:</strong></p>
+                    <ul style="font-size: 0.85em; color: #4a5568; padding-left: 20px;">
+                        <li>Are comfortable with ambiguity</li>
+                        <li>Get energized by new challenges</li>
+                        <li>See change as opportunity</li>
+                        <li>Always look for innovation</li>
+                        <li>Stay positive when plans change</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tools-tracker">
+            <div class="tool-card" id="wrench-card">
+                <div class="tool-icon"><img src="wrench emoji.png" alt="Wrench" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                <div class="tool-title">The Wrench</div>
+                <div class="tool-progress" id="wrench-progress">0/2 Found</div>
+                <div class="name-inputs">
+                    <input type="text" class="name-input" placeholder="Person 1 name" 
+                           onchange="updateProgress('wrench', 0, this.value)" id="wrench-name-1">
+                    <input type="text" class="name-input" placeholder="Person 2 name" 
+                           onchange="updateProgress('wrench', 1, this.value)" id="wrench-name-2">
+                </div>
+            </div>
+
+            <div class="tool-card" id="measuring-tape-card">
+                <div class="tool-icon"><img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                <div class="tool-title">The Measuring Tape</div>
+                <div class="tool-progress" id="measuring-tape-progress">0/2 Found</div>
+                <div class="name-inputs">
+                    <input type="text" class="name-input" placeholder="Person 1 name" 
+                           onchange="updateProgress('measuring-tape', 0, this.value)" id="measuring-tape-name-1">
+                    <input type="text" class="name-input" placeholder="Person 2 name" 
+                           onchange="updateProgress('measuring-tape', 1, this.value)" id="measuring-tape-name-2">
+                </div>
+            </div>
+
+            <div class="tool-card" id="hammer-card">
+                <div class="tool-icon"><img src="hammer emoji.png" alt="Hammer" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                <div class="tool-title">The Hammer</div>
+                <div class="tool-progress" id="hammer-progress">0/2 Found</div>
+                <div class="name-inputs">
+                    <input type="text" class="name-input" placeholder="Person 1 name" 
+                           onchange="updateProgress('hammer', 0, this.value)" id="hammer-name-1">
+                    <input type="text" class="name-input" placeholder="Person 2 name" 
+                           onchange="updateProgress('hammer', 1, this.value)" id="hammer-name-2">
+                </div>
+            </div>
+
+            <div class="tool-card" id="multi-tool-card">
+                <div class="tool-icon"><img src="multitool emoji.png" alt="Multi-Tool" style="width: 60px; height: 60px; object-fit: contain;"></div>
+                <div class="tool-title">The Multi-Tool</div>
+                <div class="tool-progress" id="multi-tool-progress">0/2 Found</div>
+                <div class="name-inputs">
+                    <input type="text" class="name-input" placeholder="Person 1 name" 
+                           onchange="updateProgress('multi-tool', 0, this.value)" id="multi-tool-name-1">
+                    <input type="text" class="name-input" placeholder="Person 2 name" 
+                           onchange="updateProgress('multi-tool', 1, this.value)" id="multi-tool-name-2">
+                </div>
+            </div>
+        </div>
+
+        <div class="completion-summary" id="completion-summary">
+            <div class="summary-title">🎉 Networking Complete!</div>
+            <p>Congratulations! You've successfully identified your complete team network.</p>
+            <div class="network-list" id="network-list"></div>
+            <button class="generate-btn" onclick="emailResults()" style="margin-top: 20px; background: #38a169;">📧 Email My Results</button>
+            <button class="generate-btn" onclick="restartNetworking()" style="margin-top: 20px;">Start New Tools of the Trade</button>
+        </div>
+
+        <div class="controls">
+            <button class="control-btn" onclick="goBackToGame()">Back to Quiz</button>
+            <button class="control-btn" onclick="showNetworkingSummary()">People Toolbox & Resources Summary</button>
+            <button class="control-btn" onclick="emailResults()" style="background: #38a169;">📧 Email Results</button>
+        </div>
+    </div>
+
+    <script>
+        // Tool assignment data from CSV file
+        const toolAssignments = {
+            'M0H01C4': 'multi-tool',
+            'C0A07J1': 'wrench',
+            'S0A09UO': 'hammer',
+            'JGONZ79': 'measuring-tape',
+            'SEKINS': 'multi-tool',
+            'ARBLUMA': 'wrench',
+            'D0B0KWR': 'hammer',
+            'A0B091S': 'measuring-tape',
+            'K0B0DPK': 'multi-tool',
+            'A0B0K7I': 'wrench',
+            'TMANGAN': 'hammer',
+            'J0C0KD0': 'measuring-tape',
+            'K0C01FC': 'multi-tool',
+            'A0C0LTZ': 'wrench',
+            'M3COOPE': 'hammer',
+            'TGCOX': 'measuring-tape',
+            'SBCRAIG': 'multi-tool',
+            'TDAVI38': 'wrench',
+            'JDODSO1': 'hammer',
+            'N0D00B1': 'measuring-tape',
+            'E0D05EC': 'multi-tool',
+            'EPDUNCA': 'wrench',
+            'AMEDGEC': 'hammer',
+            'RELLIS2': 'measuring-tape',
+            'J0ENGEL': 'multi-tool',
+            'WUF000B': 'wrench',
+            'H0F01QK': 'hammer',
+            'N0F008X': 'measuring-tape',
+            'L2FOSTE': 'multi-tool',
+            'ALFOX': 'wrench',
+            'R9FRANC': 'hammer',
+            'EGOAD': 'measuring-tape',
+            'A0H0I9I': 'multi-tool',
+            'S0H0H3V': 'wrench',
+            'K0H00SF': 'hammer',
+            'RHOLDEN': 'measuring-tape',
+            'AHGUIDR': 'multi-tool',
+            'R0H0J8V': 'wrench',
+            'RWJ001T': 'hammer',
+            'JJJ0086': 'measuring-tape',
+            'C0J0ATN': 'multi-tool',
+            'A0K0BRJ': 'wrench',
+            'A0K025C': 'hammer',
+            'A0L0LYH': 'measuring-tape',
+            'E0L059A': 'multi-tool',
+            'D0LONG': 'wrench',
+            'KMAI2': 'hammer',
+            'C0M0L8N': 'measuring-tape',
+            'AMARSH9': 'multi-tool',
+            'SCMASTE': 'wrench',
+            'KMOSS': 'hammer',
+            'K0O02SY': 'measuring-tape',
+            'R0O00TD': 'multi-tool',
+            'HPALME1': 'wrench',
+            'M0P00G2': 'hammer',
+            'B0P04M5': 'measuring-tape',
+            'MPERE85': 'multi-tool',
+            'MEVENSO': 'wrench',
+            'J0P15UW': 'hammer',
+            'AAHOSTE': 'measuring-tape',
+            'B0R020K': 'multi-tool',
+            'K0R0K1D': 'wrench',
+            'BMREICH': 'hammer',
+            'MAREID': 'measuring-tape',
+            'T0R00BM': 'multi-tool',
+            'ERS000W': 'wrench',
+            'NSKIDMO': 'hammer',
+            'L4MAY': 'measuring-tape',
+            'SKSRIVA': 'multi-tool',
+            'LWOODS2': 'wrench',
+            'KTHOM14': 'hammer',
+            'RTOLLE': 'measuring-tape',
+            'M0V04J3': 'multi-tool',
+            'LWADE': 'wrench',
+            'BPB000R': 'hammer',
+            'K0W0D6U': 'measuring-tape',
+            'T0W0LXZ': 'multi-tool',
+            'YWARFIE': 'wrench',
+            'S0W0LS4': 'hammer',
+            'C0W06X5': 'measuring-tape',
+            'K0W03JQ': 'multi-tool',
+            'S0W0BLO': 'wrench',
+            'AWOODS6': 'hammer',
+            'K0W0A2L': 'measuring-tape',
+            // Fallback assignments for testing
+            'admin': 'multi-tool',
+            'test': 'wrench',
+            'demo': 'hammer'
+        };
+
+        // Associate names mapping for display
+        const associateNames = {
+            'M0H01C4': 'Michelle Acevedo',
+            'C0A07J1': 'Charles Allen',
+            'S0A09UO': 'Shala Andrews',
+            'JGONZ79': 'Joann Baker',
+            'SEKINS': 'Shellene Beacham',
+            'ARBLUMA': 'Angela Bluma',
+            'D0B0KWR': 'Danielle Bootes',
+            'A0B091S': 'Ashley Boswell',
+            'K0B0DPK': 'Kelly Broome',
+            'A0B0K7I': 'April Browder',
+            'TMANGAN': 'Toni Budrow',
+            'J0C0KD0': 'Joe Campbell',
+            'K0C01FC': 'Kevin Chirino',
+            'A0C0LTZ': 'Allison Coker',
+            'M3COOPE': 'Mandi Cooper',
+            'TGCOX': 'Tiffanie Cox',
+            'SBCRAIG': 'Sarah Craig',
+            'TDAVI38': 'Tolliver Davis',
+            'JDODSO1': 'Jennifer Dodson',
+            'N0D00B1': 'Nektaria Droutsas',
+            'E0D05EC': 'Liz Dufour',
+            'EPDUNCA': 'Erika Duncan',
+            'AMEDGEC': 'Ashley Edgecomb',
+            'RELLIS2': 'Ryan Ellis',
+            'J0ENGEL': 'John Engel',
+            'WUF000B': 'Wanda Fernandez Roman',
+            'H0F01QK': 'Holly Flaker',
+            'N0F008X': 'Nathan Floyd',
+            'L2FOSTE': 'Latonya Foster',
+            'ALFOX': 'Andi Fox',
+            'R9FRANC': 'Robbie Francis',
+            'EGOAD': 'Elizabeth Goad',
+            'A0H0I9I': 'Anita Hart',
+            'S0H0H3V': 'Shannon Hereford',
+            'K0H00SF': 'Kathy Hill',
+            'RHOLDEN': 'Rashanda Holden',
+            'AHGUIDR': 'Alona Hollis',
+            'R0H0J8V': 'Ricardo Hruschka-Bonds',
+            'RWJ001T': 'Russell Jaynes',
+            'JJJ0086': 'Janine Johnson',
+            'C0J0ATN': 'Christina Johnson',
+            'A0K0BRJ': 'Adam Kinney',
+            'A0K025C': 'Ashley Kozlenko',
+            'A0L0LYH': 'Ana Lasa',
+            'E0L059A': 'Erin Launspach',
+            'D0LONG': 'David Long',
+            'KMAI2': 'Kristi Mai',
+            'C0M0L8N': 'Christina Manegold',
+            'AMARSH9': 'Aaron Marshall',
+            'SCMASTE': 'Sondra Masters',
+            'KMOSS': 'Karie Moss',
+            'K0O02SY': 'Kristine Olson',
+            'R0O00TD': 'Raley Oneill',
+            'HPALME1': 'Heidi Palmer',
+            'M0P00G2': 'Michael Palmer',
+            'B0P04M5': 'Brandon Paulino',
+            'MPERE85': 'Michelle Perez',
+            'MEVENSO': 'Misty Pettigrew',
+            'J0P15UW': 'Joana Pinto',
+            'AAHOSTE': 'April Prideau',
+            'B0R020K': 'Brittany Ralph',
+            'K0R0K1D': 'Kevin Reese',
+            'BMREICH': 'Brandon Reichard',
+            'MAREID': 'Marjorie Reid',
+            'T0R00BM': 'Trina Rusher',
+            'ERS000W': 'Liz Sanchez',
+            'NSKIDMO': 'Nathan Skidmore',
+            'L4MAY': 'Lacy Smith',
+            'SKSRIVA': 'Sanjiva Srivastava',
+            'LWOODS2': 'Lacey Swearingen',
+            'KTHOM14': 'Kathleen Thompson',
+            'RTOLLE': 'Rachel Tolle',
+            'M0V04J3': 'Maria Varela',
+            'LWADE': 'Lyndsay Wade',
+            'BPB000R': 'Paige Walker',
+            'K0W0D6U': 'Kenya Walker',
+            'T0W0LXZ': 'Tiffany Walker',
+            'YWARFIE': 'Yoni Warfield',
+            'S0W0LS4': 'Sara Weaver',
+            'C0W06X5': 'Carey Webb',
+            'K0W03JQ': 'Katie Wilson',
+            'S0W0BLO': 'Sarah Windholtz',
+            'AWOODS6': 'Amy Woods',
+            'K0W0A2L': 'Kate Wright',
+            // Fallback names for testing
+            'admin': 'Administrator',
+            'test': 'Test User',
+            'demo': 'Demo User'
+        };
+
+        const tools = {
+            'wrench': {
+                emoji: '🔧',
+                image: 'wrench emoji.png?v=' + Math.random(),
+                name: 'The Wrench',
+                description: 'You fix and maintain team dynamics!',
+                summary: 'As a Wrench, you excel at identifying and resolving team conflicts, improving processes, and maintaining smooth operations.',
+                skills: [
+                    'Conflict Resolution',
+                    'Process Improvement',
+                    'Troubleshooting',
+                    'Team Mediation',
+                    'System Maintenance',
+                    'Problem Identification'
+                ]
+            },
+            'measuring-tape': {
+                emoji: '📏',
+                image: 'measuring tape emoji.png?v=' + Math.random(),
+                name: 'The Measuring Tape',
+                description: 'You assess and measure team progress!',
+                summary: 'As a Measuring Tape, you have a natural ability to track progress, analyze performance metrics, and ensure teams stay on target.',
+                skills: [
+                    'Performance Analysis',
+                    'Goal Setting & Tracking',
+                    'Data Analysis',
+                    'Progress Monitoring',
+                    'Quality Assessment',
+                    'Strategic Planning'
+                ]
+            },
+            'hammer': {
+                emoji: '🔨',
+                image: 'hammer emoji.png?v=' + Math.random(),
+                name: 'The Hammer',
+                description: 'You build strong team foundations!',
+                summary: 'As a Hammer, you excel at building solid foundations, establishing new processes, and driving initiatives from the ground up.',
+                skills: [
+                    'Foundation Building',
+                    'Initiative Leadership',
+                    'Team Development',
+                    'Process Creation',
+                    'Consensus Building',
+                    'Structural Thinking'
+                ]
+            },
+            'multi-tool': {
+                emoji: '⚙️',
+                image: 'multitool emoji.png?v=' + Math.random(),
+                name: 'The Multi-Tool',
+                description: 'You are the versatile problem solver!',
+                summary: 'As a Multi-Tool, you adapt quickly to different situations, support various team needs, and provide flexible solutions across multiple areas.',
+                skills: [
+                    'Adaptability',
+                    'Versatile Problem Solving',
+                    'Cross-functional Support',
+                    'Flexible Thinking',
+                    'Resource Optimization',
+                    'Multi-tasking Excellence'
+                ]
+            }
+        };
+
+        let currentUser = {
+            id: '',
+            name: '',
+            tool: null
+        };
+
+        // Game data
+        const gameData = {
+            questions: [
+                {
+                    question: "What is Sam's Club's approach to serving members?",
+                    answers: ["Focus only on sales", "Exceed member expectations", "Follow standard procedures only", "Minimize interaction time"],
+                    correct: 1
+                },
+                {
+                    question: "How should Sam's Club associates handle member complaints?",
+                    answers: ["Ignore if possible", "Listen actively and solve problems", "Direct to management immediately", "Defend company policies"],
+                    correct: 1
+                },
+                {
+                    question: "What is the most important aspect of teamwork at Sam's Club?",
+                    answers: ["Working independently", "Supporting each other to serve members", "Competing with teammates", "Following orders only"],
+                    correct: 1
+                },
+                {
+                    question: "How should feedback be shared among Sam's Club team members?",
+                    answers: ["Only when problems occur", "Constructively and regularly", "Through gossip", "Never directly"],
+                    correct: 1
+                },
+                {
+                    question: "What makes a Sam's Club team meeting effective?",
+                    answers: ["No preparation needed", "Clear objectives and member focus", "Only managers speaking", "Avoiding difficult topics"],
+                    correct: 1
+                },
+                {
+                    question: "How do you build trust with Sam's Club members?",
+                    answers: ["Make promises you can't keep", "Be honest and consistent", "Only share good news", "Avoid personal connections"],
+                    correct: 1
+                },
+                {
+                    question: "What's key to Sam's Club's success in serving members?",
+                    answers: ["Working individually", "Clear communication and teamwork", "Avoiding member interaction", "Following rigid procedures"],
+                    correct: 1
+                },
+                {
+                    question: "How should Sam's Club team goals be established?",
+                    answers: ["By corporate only", "With team input and member focus", "Based on last year only", "Without specific timelines"],
+                    correct: 1
+                },
+                {
+                    question: "What's the best approach to solving member issues at Sam's Club?",
+                    answers: ["Individual decisions only", "Collaborative team problem-solving", "Quick assumptions", "Avoiding complex situations"],
+                    correct: 1
+                },
+                {
+                    question: "How do you maintain team motivation at Sam's Club?",
+                    answers: ["Focus only on problems", "Celebrate wins and member successes", "Ignore individual contributions", "Set unrealistic standards"],
+                    correct: 1
+                }
+            ],
+            currentQuestion: 0,
+            score: 0,
+            streak: 0,
+            maxStreak: 0,
+            gameStarted: false,
+            gameEnded: false
+        };
+
+        // Game elements
+        const elements = {
+            question: document.getElementById('question'),
+            answers: document.getElementById('answers'),
+            score: document.getElementById('score'),
+            currentQuestion: document.getElementById('current-question'),
+            totalQuestions: document.getElementById('total-questions'),
+            streak: document.getElementById('streak'),
+            progress: document.getElementById('progress'),
+            questionContainer: document.getElementById('question-container'),
+            gameOver: document.getElementById('game-over'),
+            finalScore: document.getElementById('final-score'),
+            achievement: document.getElementById('achievement'),
+            startBtn: document.getElementById('start-btn'),
+            nextBtn: document.getElementById('next-btn'),
+            restartBtn: document.getElementById('restart-btn')
+        };
+
+        function startGame() {
+            gameData.gameStarted = true;
+            gameData.gameEnded = false;
+            gameData.currentQuestion = 0;
+            gameData.score = 0;
+            gameData.streak = 0;
+            gameData.maxStreak = 0;
+
+            elements.startBtn.style.display = 'none';
+            elements.restartBtn.style.display = 'none';
+            elements.questionContainer.style.display = 'block';
+            elements.gameOver.style.display = 'none';
+            elements.totalQuestions.textContent = gameData.questions.length;
+
+            loadQuestion();
+            updateDisplay();
+        }
+
+        function loadQuestion() {
+            const question = gameData.questions[gameData.currentQuestion];
+            elements.question.textContent = question.question;
+            elements.answers.innerHTML = '';
+
+            question.answers.forEach((answer, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = answer;
+                button.onclick = () => selectAnswer(index);
+                elements.answers.appendChild(button);
+            });
+
+            elements.nextBtn.disabled = true;
+        }
+
+        function selectAnswer(selectedIndex) {
+            const question = gameData.questions[gameData.currentQuestion];
+            const buttons = elements.answers.querySelectorAll('.answer-btn');
+            
+            // Disable all buttons
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (selectedIndex === question.correct) {
+                // Correct answer
+                buttons[selectedIndex].classList.add('correct');
+                gameData.score += 10;
+                gameData.streak++;
+                gameData.maxStreak = Math.max(gameData.maxStreak, gameData.streak);
+                
+                // Bonus points for streak
+                if (gameData.streak >= 3) {
+                    gameData.score += 5;
+                }
+            } else {
+                // Incorrect answer
+                buttons[selectedIndex].classList.add('incorrect');
+                buttons[question.correct].classList.add('correct');
+                gameData.streak = 0;
+            }
+
+            updateDisplay();
+            
+            // Enable next button after a delay
+            setTimeout(() => {
+                elements.nextBtn.disabled = false;
+                if (gameData.currentQuestion === gameData.questions.length - 1) {
+                    elements.nextBtn.textContent = 'Finish Game';
+                }
+            }, 1500);
+        }
+
+        function nextQuestion() {
+            gameData.currentQuestion++;
+            
+            if (gameData.currentQuestion >= gameData.questions.length) {
+                endGame();
+            } else {
+                loadQuestion();
+                updateDisplay();
+                elements.nextBtn.textContent = 'Next Question';
+                elements.nextBtn.disabled = true;
+            }
+        }
+
+        function endGame() {
+            gameData.gameEnded = true;
+            elements.questionContainer.style.display = 'none';
+            elements.gameOver.style.display = 'block';
+            elements.nextBtn.style.display = 'none';
+            elements.restartBtn.style.display = 'inline-block';
+            document.getElementById('networking-btn').style.display = 'inline-block';
+            document.getElementById('email-btn').style.display = 'inline-block';
+
+            const percentage = Math.round((gameData.score / (gameData.questions.length * 10)) * 100);
+            elements.finalScore.textContent = `Final Score: ${gameData.score}`;
+
+            // Determine achievement
+            let achievement = '';
+            if (percentage >= 90) {
+                achievement = '🏆 Sam\'s Club Leadership Champion!';
+            } else if (percentage >= 80) {
+                achievement = '🌟 Outstanding Member Advocate!';
+            } else if (percentage >= 70) {
+                achievement = '👍 Solid Team Contributor!';
+            } else if (percentage >= 60) {
+                achievement = '📚 Growing Sam\'s Club Associate!';
+            } else {
+                achievement = '💪 Keep Building Your Skills!';
+            }
+
+            elements.achievement.textContent = achievement;
+        }
+
+        function restartGame() {
+            startGame();
+        }
+
+        function updateDisplay() {
+            elements.score.textContent = gameData.score;
+            elements.currentQuestion.textContent = gameData.currentQuestion + 1;
+            elements.streak.textContent = gameData.streak;
+            
+            const progress = ((gameData.currentQuestion + 1) / gameData.questions.length) * 100;
+            elements.progress.style.width = progress + '%';
+        }
+
+        // New functions for toolbox reveal
+        function revealTool() {
+            const userId = document.getElementById('user-id').value.trim();
+            
+            if (!userId) {
+                alert('Please enter your User ID');
+                return;
+            }
+
+            // Try to find exact match first, then case-insensitive match
+            let assignedTool = toolAssignments[userId];
+            let userName = associateNames[userId];
+            
+            if (!assignedTool) {
+                // Try case-insensitive match
+                const userIdUpper = userId.toUpperCase();
+                assignedTool = toolAssignments[userIdUpper];
+                userName = associateNames[userIdUpper];
+            }
+            
+            if (!assignedTool) {
+                alert('User ID not found in the system. Please check your User ID and try again.');
+                return;
+            }
+            
+            currentUser.id = userId;
+            currentUser.name = userName || userId;
+            currentUser.tool = tools[assignedTool];
+            
+            // Hide instructions modal and show toolbox
+            document.getElementById('instructions-modal').style.display = 'none';
+            document.getElementById('toolbox-screen').style.display = 'block';
+            
+            // Automatically trigger toolbox opening after a brief delay
+            setTimeout(() => {
+                openToolbox();
+            }, 1000);
+        }
+
+        function openToolbox() {
+            const toolbox = document.getElementById('toolbox');
+            const toolReveal = document.getElementById('tool-reveal');
+            const toolName = document.getElementById('tool-name');
+            const continueBtn = document.getElementById('continue-btn');
+            
+            // Disable clicking again
+            toolbox.onclick = null;
+            
+            // Add opening animation to toolbox
+            toolbox.style.transform = 'scale(1.05)';
+            toolbox.style.filter = 'drop-shadow(0 25px 50px rgba(0, 113, 206, 0.5)) brightness(1.1)';
+            
+            // Change to light color toolbox image after brief delay to show opening
+            setTimeout(() => {
+                toolbox.style.backgroundImage = "url('light color toolbox.png')";
+                
+                // Show the tool after image changes
+                setTimeout(() => {
+                    toolReveal.innerHTML = `<img src="${currentUser.tool.image}" alt="${currentUser.tool.name}">`;
+                    toolReveal.classList.add('show');
+                    
+                    setTimeout(() => {
+                        toolName.innerHTML = `<strong>${currentUser.name}</strong><br>${currentUser.tool.name}`;
+                        toolName.classList.add('show');
+                        
+                        // Show tool summary after name appears
+                        setTimeout(() => {
+                            const toolSummary = document.getElementById('tool-summary');
+                            const summaryText = document.getElementById('tool-summary-text');
+                            const skillsList = document.getElementById('skills-list');
+                            
+                            summaryText.textContent = currentUser.tool.summary;
+                            
+                            // Add skills to the list
+                            skillsList.innerHTML = '';
+                            currentUser.tool.skills.forEach(skill => {
+                                const skillItem = document.createElement('div');
+                                skillItem.className = 'skill-item';
+                                skillItem.textContent = skill;
+                                skillsList.appendChild(skillItem);
+                            });
+                            
+                            toolSummary.classList.add('show');
+                            
+                            setTimeout(() => {
+                                continueBtn.style.display = 'inline-block';
+                            }, 1000);
+                        }, 500);
+                    }, 1000);
+                }, 300);
+            }, 500);
+        }
+
+        function showGame() {
+            document.getElementById('toolbox-screen').style.display = 'none';
+            document.getElementById('main-game').style.display = 'block';
+            
+            // Display user's name and tool in the game header
+            document.getElementById('user-tool-display').innerHTML = 
+                `<strong>Welcome, ${currentUser.name}!</strong><br>
+                Your tool: ${currentUser.tool.emoji} ${currentUser.tool.name}<br>
+                <small style="color: #0071ce;">${currentUser.tool.description}</small>`;
+        }
+
+        function showNetworkingGame() {
+            document.getElementById('toolbox-screen').style.display = 'none';
+            document.getElementById('main-game').style.display = 'none';
+            document.getElementById('networking-game').style.display = 'block';
+            
+            // Update networking game header with user info
+            const networkingSubtitle = document.querySelector('#networking-game .game-subtitle');
+            if (currentUser.name && currentUser.tool) {
+                networkingSubtitle.innerHTML = `Welcome ${currentUser.name}! (${currentUser.tool.emoji} ${currentUser.tool.name})<br>Find your team members and build your network!`;
+            }
+            
+            // Reset networking game state
+            initializeNetworkingGame();
+        }
+
+        // Assessment Questions for Tool Identification
+        const assessmentQuestions = [
+            {
+                id: 1,
+                question: "I enjoy taking a complex, broken process and figuring out how to fix it.",
+                category: "problem-solver"
+            },
+            {
+                id: 2,
+                question: "When someone is struggling, I'm the first to offer a listening ear and support.",
+                category: "communicator"
+            },
+            {
+                id: 3,
+                question: "I find satisfaction in ensuring every policy and procedure is followed to the letter.",
+                category: "implementer"
+            },
+            {
+                id: 4,
+                question: "I'm comfortable with ambiguity and can quickly adjust my plans when new information arises.",
+                category: "adapter"
+            },
+            {
+                id: 5,
+                question: "I love to create a detailed, long-term strategy for a project before starting.",
+                category: "problem-solver"
+            },
+            {
+                id: 6,
+                question: "I'm skilled at mediating conflicts and helping people find common ground.",
+                category: "communicator"
+            },
+            {
+                id: 7,
+                question: "I'm the go-to person on my team for questions about HR regulations and compliance.",
+                category: "implementer"
+            },
+            {
+                id: 8,
+                question: "I get energized by tackling new challenges and learning new skills on the fly.",
+                category: "adapter"
+            },
+            {
+                id: 9,
+                question: "I'm drawn to analyzing data and metrics to make informed decisions.",
+                category: "problem-solver"
+            },
+            {
+                id: 10,
+                question: "I prioritize building strong, trusting relationships with my colleagues.",
+                category: "communicator"
+            },
+            {
+                id: 11,
+                question: "I'm most confident when I have a clear set of rules and guidelines to follow.",
+                category: "implementer"
+            },
+            {
+                id: 12,
+                question: "I see change not as a threat but as an exciting opportunity for improvement.",
+                category: "adapter"
+            },
+            {
+                id: 13,
+                question: "When faced with a roadblock, my first instinct is to find a creative, non-traditional solution.",
+                category: "problem-solver"
+            },
+            {
+                id: 14,
+                question: "I find it easy to empathize with different perspectives, even if I don't agree with them.",
+                category: "communicator"
+            },
+            {
+                id: 15,
+                question: "I take pride in my ability to manage multiple priorities and stay organized.",
+                category: "implementer"
+            },
+            {
+                id: 16,
+                question: "I am always looking for ways to innovate and improve existing HR practices.",
+                category: "adapter"
+            },
+            {
+                id: 17,
+                question: "I am often the one to 'connect the dots' between different ideas or departments.",
+                category: "problem-solver"
+            },
+            {
+                id: 18,
+                question: "I believe effective communication is more about listening than talking.",
+                category: "communicator"
+            },
+            {
+                id: 19,
+                question: "I enjoy the precision of working with numbers and creating budgets or compensation plans.",
+                category: "implementer"
+            },
+            {
+                id: 20,
+                question: "I am resilient and can stay positive and productive when things don't go as planned.",
+                category: "adapter"
+            }
+        ];
+
+        // Tool category mapping
+        const toolCategoryMapping = {
+            'problem-solver': 'wrench',
+            'communicator': 'measuring-tape', 
+            'implementer': 'hammer',
+            'adapter': 'multi-tool'
+        };
+
+        // Networking Game Data and Functions
+        const networkingQuestions = {
+            'wrench': [
+                "What do you do when you see a team conflict brewing?",
+                "How do you handle a situation where team morale is low?",
+                "What's your first instinct when a process isn't working?",
+                "How do you approach fixing communication breakdowns?",
+                "What do you do when you notice inefficiencies in the workflow?",
+                "Do you enjoy taking a complex, broken process and figuring out how to fix it?",
+                "Do you love to create a detailed, long-term strategy for a project before starting?",
+                "Are you drawn to analyzing data and metrics to make informed decisions?",
+                "When faced with a roadblock, do you instinctively look for creative, non-traditional solutions?",
+                "Are you often the one to 'connect the dots' between different ideas or departments?"
+            ],
+            'measuring-tape': [
+                "How do you typically track your team's progress?",
+                "What metrics do you think are most important for success?",
+                "How do you know when a project is on track?",
+                "What's your approach to setting realistic timelines?",
+                "How do you measure team performance?",
+                "When someone is struggling, are you the first to offer a listening ear and support?",
+                "Are you skilled at mediating conflicts and helping people find common ground?",
+                "Do you prioritize building strong, trusting relationships with your colleagues?",
+                "Do you find it easy to empathize with different perspectives, even if you don't agree with them?",
+                "Do you believe effective communication is more about listening than talking?"
+            ],
+            'hammer': [
+                "What's your approach to starting new initiatives?",
+                "How do you build consensus in a group?",
+                "What do you do when laying groundwork for a project?",
+                "How do you establish strong team foundations?",
+                "What's your method for creating solid processes?",
+                "Do you find satisfaction in ensuring every policy and procedure is followed to the letter?",
+                "Are you the go-to person on your team for questions about HR regulations and compliance?",
+                "Are you most confident when you have a clear set of rules and guidelines to follow?",
+                "Do you take pride in your ability to manage multiple priorities and stay organized?",
+                "Do you enjoy the precision of working with numbers and creating budgets or compensation plans?"
+            ],
+            'multi-tool': [
+                "How do you adapt when plans change unexpectedly?",
+                "What do you do when facing an unfamiliar challenge?",
+                "How do you handle wearing multiple hats at work?",
+                "What's your approach to problem-solving complex issues?",
+                "How do you support team members with different needs?",
+                "Are you comfortable with ambiguity and can you quickly adjust your plans when new information arises?",
+                "Do you get energized by tackling new challenges and learning new skills on the fly?",
+                "Do you see change not as a threat but as an exciting opportunity for improvement?",
+                "Are you always looking for ways to innovate and improve existing HR practices?",
+                "Are you resilient and able to stay positive and productive when things don't go as planned?"
+            ]
+        };
+
+        const networkingData = {
+            foundPeople: {
+                'wrench': ['', ''],
+                'measuring-tape': ['', ''],
+                'hammer': ['', ''],
+                'multi-tool': ['', '']
+            },
+            currentQuestion: null,
+            currentCategory: null
+        };
+
+        function initializeNetworkingGame() {
+            // Reset all inputs
+            Object.keys(networkingData.foundPeople).forEach(tool => {
+                networkingData.foundPeople[tool] = ['', ''];
+                document.getElementById(`${tool}-name-1`).value = '';
+                document.getElementById(`${tool}-name-2`).value = '';
+                document.getElementById(`${tool}-card`).classList.remove('completed');
+                updateToolProgress(tool);
+            });
+            
+            // Hide completion summary
+            document.getElementById('completion-summary').style.display = 'none';
+            document.getElementById('current-question-card').style.display = 'none';
+        }
+
+        function generateNetworkingQuestion() {
+            // Get random tool category
+            const toolCategories = Object.keys(networkingQuestions);
+            const randomCategory = toolCategories[Math.floor(Math.random() * toolCategories.length)];
+            
+            // Get random question from that category
+            const questions = networkingQuestions[randomCategory];
+            const randomQuestion = questions[Math.floor(Math.random() * questions.length)];
+            
+            // Display the question
+            networkingData.currentCategory = randomCategory;
+            networkingData.currentQuestion = randomQuestion;
+            
+            document.getElementById('question-category').innerHTML = `Looking for: ${getToolName(randomCategory)}`;
+            document.getElementById('networking-question').textContent = randomQuestion;
+            document.getElementById('current-question-card').style.display = 'block';
+        }
+
+        function clearCurrentQuestion() {
+            document.getElementById('current-question-card').style.display = 'none';
+            networkingData.currentQuestion = null;
+            networkingData.currentCategory = null;
+        }
+
+        function getToolName(toolKey) {
+            const toolNames = {
+                'wrench': '<img src="wrench emoji.png" alt="Wrench" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Wrench',
+                'measuring-tape': '<img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Measuring Tape',
+                'hammer': '<img src="hammer emoji.png" alt="Hammer" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Hammer',
+                'multi-tool': '<img src="multitool emoji.png" alt="Multi-Tool" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Multi-Tool'
+            };
+            return toolNames[toolKey];
+        }
+
+        function getToolNamePlainText(toolKey) {
+            const toolNames = {
+                'wrench': '🔧 The Wrench',
+                'measuring-tape': '📏 The Measuring Tape',
+                'hammer': '🔨 The Hammer',
+                'multi-tool': '⚙️ The Multi-Tool'
+            };
+            return toolNames[toolKey];
+        }
+
+        function updateProgress(tool, index, name) {
+            networkingData.foundPeople[tool][index] = name.trim();
+            
+            // Update input styling
+            const input = document.getElementById(`${tool}-name-${index + 1}`);
+            if (name.trim()) {
+                input.classList.add('filled');
+            } else {
+                input.classList.remove('filled');
+            }
+            
+            updateToolProgress(tool);
+            checkNetworkingCompletion();
+        }
+
+        function updateToolProgress(tool) {
+            const foundCount = networkingData.foundPeople[tool].filter(name => name.length > 0).length;
+            document.getElementById(`${tool}-progress`).textContent = `${foundCount}/2 Found`;
+            
+            // Update card styling
+            const card = document.getElementById(`${tool}-card`);
+            if (foundCount === 2) {
+                card.classList.add('completed');
+            } else {
+                card.classList.remove('completed');
+            }
+        }
+
+        function checkNetworkingCompletion() {
+            let totalFound = 0;
+            Object.keys(networkingData.foundPeople).forEach(tool => {
+                const foundCount = networkingData.foundPeople[tool].filter(name => name.length > 0).length;
+                totalFound += foundCount;
+            });
+            
+            if (totalFound === 8) {
+                showCompletionSummary();
+            }
+        }
+
+        function showCompletionSummary() {
+            const networkList = document.getElementById('network-list');
+            let summaryHTML = '<h3 style="margin-bottom: 15px;">Your Complete Network:</h3>';
+            
+            Object.keys(networkingData.foundPeople).forEach(tool => {
+                const toolName = getToolName(tool);
+                const people = networkingData.foundPeople[tool].filter(name => name.length > 0);
+                
+                summaryHTML += `
+                    <div class="network-category">
+                        <h4>${toolName}</h4>
+                        <div class="network-names">
+                            ${people.map(name => `• ${name}`).join('<br>')}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            networkList.innerHTML = summaryHTML;
+            document.getElementById('completion-summary').style.display = 'block';
+        }
+
+        function showNetworkingSummary() {
+            let totalFound = 0;
+            Object.keys(networkingData.foundPeople).forEach(tool => {
+                totalFound += networkingData.foundPeople[tool].filter(name => name.length > 0).length;
+            });
+            
+            if (totalFound > 0) {
+                showCompletionSummary();
+            } else {
+                alert('Start networking and add some names first!');
+            }
+        }
+
+        function restartNetworking() {
+            initializeNetworkingGame();
+        }
+
+        function toggleScoringGuide() {
+            const scoringGuide = document.getElementById('scoring-guide');
+            const button = event.target;
+            
+            if (scoringGuide.style.display === 'none' || scoringGuide.style.display === '') {
+                scoringGuide.style.display = 'block';
+                button.textContent = 'Hide Scoring Guide';
+                button.style.background = '#e53e3e';
+            } else {
+                scoringGuide.style.display = 'none';
+                button.textContent = 'View Scoring Guide';
+                button.style.background = '#38a169';
+            }
+        }
+
+        function emailResults() {
+            // Prepare email content
+            const subject = encodeURIComponent('Sam\'s Club Tools of the Trade - My Results');
+            
+            let emailBody = `Sam's Club Tools of the Trade Results\n`;
+            emailBody += `=============================================\n\n`;
+            
+            // Add user information
+            if (currentUser.name && currentUser.tool) {
+                emailBody += `Participant: ${currentUser.name}\n`;
+                emailBody += `User ID: ${currentUser.id}\n`;
+                emailBody += `My Tool: ${currentUser.tool.emoji} ${currentUser.tool.name}\n`;
+                emailBody += `Tool Description: ${currentUser.tool.description}\n\n`;
+                
+                emailBody += `Tool Summary:\n${currentUser.tool.summary}\n\n`;
+                
+                emailBody += `Key Skills & Strengths:\n`;
+                currentUser.tool.skills.forEach(skill => {
+                    emailBody += `• ${skill}\n`;
+                });
+                emailBody += `\n`;
+            }
+            
+            // Add networking results if available
+            let totalNetworked = 0;
+            let networkingResults = `Tools of the Trade Results:\n`;
+            networkingResults += `============================\n`;
+            
+            Object.keys(networkingData.foundPeople).forEach(tool => {
+                const toolName = getToolNamePlainText(tool);
+                const people = networkingData.foundPeople[tool].filter(name => name.length > 0);
+                totalNetworked += people.length;
+                
+                networkingResults += `\n${toolName}:\n`;
+                if (people.length > 0) {
+                    people.forEach(person => {
+                        networkingResults += `  • ${person}\n`;
+                    });
+                } else {
+                    networkingResults += `  (No connections found yet)\n`;
+                }
+            });
+            
+            if (totalNetworked > 0) {
+                emailBody += networkingResults;
+                emailBody += `\nTotal Network Connections: ${totalNetworked}/8\n`;
+                
+                if (totalNetworked === 8) {
+                    emailBody += `🎉 Tools of the Trade COMPLETED!\n`;
+                }
+            } else {
+                emailBody += `Tools of the Trade: Not yet started\n`;
+            }
+            
+            emailBody += `\n\nGenerated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}\n`;
+            emailBody += `Sam's Club Tools of the Trade\n`;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+        }
+
+        function goBackToGame() {
+            document.getElementById('networking-game').style.display = 'none';
+            document.getElementById('main-game').style.display = 'block';
+        }
+
+        // Initialize display
+        elements.totalQuestions.textContent = gameData.questions.length;
+        
+        // Show instructions modal on load
+        window.addEventListener('load', function() {
+            document.getElementById('instructions-modal').style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
