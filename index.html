@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Tools of the Trade</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sam's Club People Team Toolbox Challenge</title>
     <style>
         * {
             margin: 0;
@@ -19,10 +19,6 @@
             justify-content: center;
             align-items: center;
             color: #333;
-            margin: 0;
-            padding: 10px;
-            box-sizing: border-box;
-            -webkit-text-size-adjust: 100%;
         }
 
         .game-container {
@@ -31,10 +27,8 @@
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             padding: 40px;
             max-width: 800px;
-            width: 100%;
-            max-width: min(800px, calc(100vw - 20px));
+            width: 90%;
             text-align: center;
-            box-sizing: border-box;
         }
 
         /* Modal Styles */
@@ -56,14 +50,10 @@
             border-radius: 20px;
             padding: 40px;
             max-width: 500px;
-            width: 100%;
-            max-width: min(500px, calc(100vw - 40px));
+            width: 90%;
             text-align: center;
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease-out;
-            box-sizing: border-box;
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
         @keyframes modalSlideIn {
@@ -709,344 +699,22 @@
             font-size: 1.1em;
         }
 
-        /* Mobile and Tablet Responsive Styles */
-        @media (max-width: 1024px) {
-            .toolbox {
-                width: 90%;
-                max-width: 500px;
-                height: 400px;
-            }
-            
-            .game-title {
-                font-size: 2em;
-            }
-            
-            .tools-tracker {
-                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            }
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
+        @media (max-width: 600px) {
             .game-container {
                 padding: 20px;
-                margin: 10px;
-                width: calc(100% - 20px);
-                max-width: none;
-            }
-            
-            .modal {
-                padding: 25px;
-                margin: 20px;
-                width: calc(100% - 40px);
-                max-width: 400px;
-            }
-            
-            .game-title {
-                font-size: 1.8em;
-                margin-bottom: 15px;
-            }
-            
-            .game-subtitle {
-                font-size: 1em;
             }
             
             .answers {
                 grid-template-columns: 1fr;
-                gap: 12px;
-            }
-            
-            .answer-btn {
-                padding: 18px 15px;
-                font-size: 1em;
-                min-height: 55px;
             }
             
             .score-board {
                 flex-direction: column;
                 gap: 15px;
-                padding: 15px;
-            }
-            
-            .score-item {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-            
-            .score-label {
-                font-size: 1em;
-                margin-bottom: 0;
-            }
-            
-            .score-value {
-                font-size: 1.5em;
             }
 
             .tools-tracker {
                 grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .tool-card {
-                padding: 15px;
-            }
-            
-            .toolbox {
-                width: 90%;
-                max-width: 400px;
-                height: 320px;
-            }
-            
-            .toolbox-container {
-                padding: 20px;
-            }
-            
-            .tool-reveal img {
-                width: 120px;
-                height: 120px;
-            }
-            
-            .tool-name {
-                font-size: 1.2em;
-                text-align: center;
-                margin-top: 15px;
-            }
-            
-            .tool-summary {
-                margin: 15px auto;
-                padding: 20px;
-            }
-            
-            .skills-list {
-                grid-template-columns: 1fr;
-                gap: 8px;
-            }
-            
-            .skill-item {
-                padding: 12px 15px;
-                font-size: 0.9em;
-            }
-            
-            .question {
-                font-size: 1.1em;
-                line-height: 1.4;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px;
-            }
-            
-            .control-btn {
-                width: 100%;
-                max-width: 300px;
-                padding: 15px 25px;
-                font-size: 1em;
-            }
-            
-            .modal-btn {
-                width: 100%;
-                max-width: 280px;
-                padding: 18px 30px;
-                font-size: 1em;
-            }
-            
-            .user-id-input {
-                padding: 18px;
-                font-size: 1em;
-            }
-            
-            .mission-card {
-                padding: 20px;
-            }
-            
-            .mission-title {
-                font-size: 1.5em;
-            }
-            
-            .mission-description {
-                font-size: 1em;
-            }
-            
-            .question-generator {
-                padding: 20px;
-            }
-            
-            .question-card {
-                padding: 15px;
-            }
-            
-            .question-text {
-                font-size: 1.1em;
-            }
-            
-            .generate-btn {
-                width: 100%;
-                margin: 5px 0;
-                padding: 15px 20px;
-            }
-            
-            .guide-grid {
-                grid-template-columns: 1fr !important;
-                gap: 15px;
-            }
-            
-            .guide-card {
-                padding: 15px;
-            }
-            
-            .instructions-text {
-                padding: 15px;
-            }
-            
-            .instructions-text h3 {
-                font-size: 1.1em;
-            }
-            
-            .instructions-text li {
-                font-size: 0.9em;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .game-container {
-                padding: 15px;
-                margin: 5px;
-                width: calc(100% - 10px);
-            }
-            
-            .modal {
-                padding: 20px;
-                margin: 10px;
-                width: calc(100% - 20px);
-            }
-            
-            .game-title {
-                font-size: 1.6em;
-            }
-            
-            .toolbox {
-                width: 95%;
-                max-width: 350px;
-                height: 280px;
-            }
-            
-            .tool-reveal img {
-                width: 100px;
-                height: 100px;
-            }
-            
-            .tool-name {
-                font-size: 1.1em;
-            }
-            
-            .tool-summary {
-                padding: 15px;
-                margin: 10px auto;
-            }
-            
-            .answer-btn {
-                padding: 15px 12px;
-                font-size: 0.95em;
-                min-height: 50px;
-            }
-            
-            .question {
-                font-size: 1em;
-            }
-            
-            .sams-club-logo img {
-                height: 30px;
-            }
-            
-            #toolbox-screen .sams-club-logo img {
-                height: 60px;
-            }
-            
-            .score-label {
-                font-size: 0.9em;
-            }
-            
-            .score-value {
-                font-size: 1.3em;
-            }
-            
-            .mission-title {
-                font-size: 1.3em;
-            }
-            
-            .mission-description {
-                font-size: 0.95em;
-            }
-            
-            .tool-icon img {
-                width: 50px !important;
-                height: 50px !important;
-            }
-            
-            .tool-title {
-                font-size: 1.1em;
-            }
-            
-            .name-input {
-                padding: 12px;
-                font-size: 0.9em;
-            }
-        }
-
-        /* Landscape orientation for tablets */
-        @media (max-width: 1024px) and (orientation: landscape) {
-            .toolbox {
-                width: 70%;
-                max-width: 450px;
-                height: 350px;
-            }
-            
-            .game-container {
-                padding: 25px;
-            }
-            
-            .tools-tracker {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-        }
-
-        /* Touch-friendly improvements */
-        @media (hover: none) and (pointer: coarse) {
-            .answer-btn {
-                min-height: 50px;
-                padding: 15px;
-            }
-            
-            .control-btn {
-                min-height: 48px;
-                padding: 15px 25px;
-            }
-            
-            .modal-btn {
-                min-height: 48px;
-                padding: 15px 30px;
-            }
-            
-            .generate-btn {
-                min-height: 48px;
-                padding: 15px 25px;
-            }
-            
-            .name-input {
-                min-height: 48px;
-                padding: 15px;
-            }
-            
-            .user-id-input {
-                min-height: 48px;
-                padding: 15px;
             }
         }
     </style>
@@ -1055,7 +723,7 @@
     <!-- Instructions Modal -->
     <div class="modal-overlay" id="instructions-modal">
         <div class="modal">
-            <h2>🧰 Welcome to Sam's Club People Team Tools of the Trade!</h2>
+            <h2>🧰 Welcome to the Sam's Club People Team Toolbox Challenge!</h2>
             <div class="instructions-text">
                 <h3>How it works:</h3>
                 <ul>
@@ -1064,10 +732,10 @@
                 </ul>
                 <h3>People Partner Tools:</h3>
                 <ul>
-                    <li><strong><img src="wrench emoji.png" alt="Wrench" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Wrench:</strong> Fix and maintain team dynamics</li>
-                    <li><strong><img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Measuring Tape:</strong> Assess and measure progress</li>
-                    <li><strong><img src="hammer emoji.png" alt="Hammer" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Hammer:</strong> Build strong foundations</li>
-                    <li><strong><img src="multitool emoji.png" alt="Multi-Tool" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> The Multi-Tool:</strong> Versatile problem solver</li>
+                    <li><strong><img src="wrench emoji.png" alt="Wrench" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> Wrench:</strong> Fix and maintain team dynamics</li>
+                    <li><strong><img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> Measuring Tape:</strong> Assess and measure progress</li>
+                    <li><strong><img src="hammer emoji.png" alt="Hammer" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> Hammer:</strong> Build strong foundations</li>
+                    <li><strong><img src="multitool emoji.png" alt="Multi-Tool" style="width: 20px; height: 20px; object-fit: contain; vertical-align: middle;"> Multi-tool:</strong> Versatile problem solver</li>
                 </ul>
             </div>
             <input type="text" class="user-id-input" id="user-id" placeholder="Enter your User ID" maxlength="20">
@@ -1099,7 +767,7 @@
                 <div class="skills-list" id="skills-list"></div>
             </div>
             
-            <button class="control-btn" id="continue-btn" onclick="showNetworkingGame()" style="display: none; margin-top: 20px;">Continue to Tools of the Trade</button>
+            <button class="control-btn" id="continue-btn" onclick="showNetworkingGame()" style="display: none; margin-top: 20px;">Continue to People Team Tools Challenge</button>
         </div>
     </div>
 
@@ -1109,7 +777,7 @@
             <div class="sams-club-logo">
                 <img src="sams people logo blue letters.png" alt="Sam's Club People Logo">
             </div>
-            <h1 class="game-title">Tools of the Trade</h1>
+            <h1 class="game-title">People Team Toolbox Challenge</h1>
             <p class="game-subtitle">Test your knowledge and team skills!</p>
             <div id="user-tool-display" style="margin-top: 15px; font-size: 1.1em; color: #0071ce;"></div>
         </div>
@@ -1150,7 +818,7 @@
             <button class="control-btn" id="start-btn" onclick="startGame()">Start Knowledge Quiz</button>
             <button class="control-btn" id="next-btn" onclick="nextQuestion()" disabled>Next Question</button>
             <button class="control-btn" id="restart-btn" onclick="restartGame()" style="display:none;">Play Again</button>
-            <button class="control-btn" id="networking-btn" onclick="showNetworkingGame()" style="display:none;">Start Tools of the Trade</button>
+            <button class="control-btn" id="networking-btn" onclick="showNetworkingGame()" style="display:none;">Start People Team Tools Challenge</button>
             <button class="control-btn" id="email-btn" onclick="emailResults()" style="display:none; background: #38a169;">📧 Email Results</button>
         </div>
     </div>
@@ -1161,7 +829,7 @@
             <div class="sams-club-logo">
                 <img src="sams people logo blue letters.png" alt="Sam's Club People Logo">
             </div>
-            <h1 class="game-title">Tools of the Trade</h1>
+            <h1 class="game-title">People Team Tools Challenge</h1>
             <p class="game-subtitle">Find your team members and build your network!</p>
         </div>
 
@@ -1178,7 +846,7 @@
         <div class="question-generator">
             <h3 style="color: #0071ce; margin-bottom: 15px;">🤔 Question Generator</h3>
             <p style="color: #718096; margin-bottom: 20px; font-size: 0.9em;">
-                <strong>⏰ Remember:</strong> You have 20 minutes to complete your tools of the trade challenge. Use these questions to efficiently identify each person's tool type.
+                <strong>⏰ Remember:</strong> You have 20 minutes to complete your people team tools challenge. Use these questions to efficiently identify each person's tool type.
             </p>
             <div id="current-question-card" class="question-card" style="display: none;">
                 <div class="question-category" id="question-category"></div>
@@ -1301,7 +969,7 @@
             <p>Congratulations! You've successfully identified your complete team network.</p>
             <div class="network-list" id="network-list"></div>
             <button class="generate-btn" onclick="emailResults()" style="margin-top: 20px; background: #38a169;">📧 Email My Results</button>
-            <button class="generate-btn" onclick="restartNetworking()" style="margin-top: 20px;">Start New Tools of the Trade</button>
+            <button class="generate-btn" onclick="restartNetworking()" style="margin-top: 20px;">Start New People Team Tools Challenge</button>
         </div>
 
         <div class="controls">
@@ -1312,189 +980,83 @@
     </div>
 
     <script>
-        // Tool assignment data from CSV file
-        const toolAssignments = {
-            'M0H01C4': 'multi-tool',
-            'C0A07J1': 'wrench',
-            'S0A09UO': 'hammer',
-            'JGONZ79': 'measuring-tape',
-            'SEKINS': 'multi-tool',
-            'ARBLUMA': 'wrench',
-            'D0B0KWR': 'hammer',
-            'A0B091S': 'measuring-tape',
-            'K0B0DPK': 'multi-tool',
-            'A0B0K7I': 'wrench',
-            'TMANGAN': 'hammer',
-            'J0C0KD0': 'measuring-tape',
-            'K0C01FC': 'multi-tool',
-            'A0C0LTZ': 'wrench',
-            'M3COOPE': 'hammer',
-            'TGCOX': 'measuring-tape',
-            'SBCRAIG': 'multi-tool',
-            'TDAVI38': 'wrench',
-            'JDODSO1': 'hammer',
-            'N0D00B1': 'measuring-tape',
-            'E0D05EC': 'multi-tool',
-            'EPDUNCA': 'wrench',
-            'AMEDGEC': 'hammer',
-            'RELLIS2': 'measuring-tape',
-            'J0ENGEL': 'multi-tool',
-            'WUF000B': 'wrench',
-            'H0F01QK': 'hammer',
-            'N0F008X': 'measuring-tape',
-            'L2FOSTE': 'multi-tool',
-            'ALFOX': 'wrench',
-            'R9FRANC': 'hammer',
-            'EGOAD': 'measuring-tape',
-            'A0H0I9I': 'multi-tool',
-            'S0H0H3V': 'wrench',
-            'K0H00SF': 'hammer',
-            'RHOLDEN': 'measuring-tape',
-            'AHGUIDR': 'multi-tool',
-            'R0H0J8V': 'wrench',
-            'RWJ001T': 'hammer',
-            'JJJ0086': 'measuring-tape',
-            'C0J0ATN': 'multi-tool',
-            'A0K0BRJ': 'wrench',
-            'A0K025C': 'hammer',
-            'A0L0LYH': 'measuring-tape',
-            'E0L059A': 'multi-tool',
-            'D0LONG': 'wrench',
-            'KMAI2': 'hammer',
-            'C0M0L8N': 'measuring-tape',
-            'AMARSH9': 'multi-tool',
-            'SCMASTE': 'wrench',
-            'KMOSS': 'hammer',
-            'K0O02SY': 'measuring-tape',
-            'R0O00TD': 'multi-tool',
-            'HPALME1': 'wrench',
-            'M0P00G2': 'hammer',
-            'B0P04M5': 'measuring-tape',
-            'MPERE85': 'multi-tool',
-            'MEVENSO': 'wrench',
-            'J0P15UW': 'hammer',
-            'AAHOSTE': 'measuring-tape',
-            'B0R020K': 'multi-tool',
-            'K0R0K1D': 'wrench',
-            'BMREICH': 'hammer',
-            'MAREID': 'measuring-tape',
-            'T0R00BM': 'multi-tool',
-            'ERS000W': 'wrench',
-            'NSKIDMO': 'hammer',
-            'L4MAY': 'measuring-tape',
-            'SKSRIVA': 'multi-tool',
-            'LWOODS2': 'wrench',
-            'KTHOM14': 'hammer',
-            'RTOLLE': 'measuring-tape',
-            'M0V04J3': 'multi-tool',
-            'LWADE': 'wrench',
-            'BPB000R': 'hammer',
-            'K0W0D6U': 'measuring-tape',
-            'T0W0LXZ': 'multi-tool',
-            'YWARFIE': 'wrench',
-            'S0W0LS4': 'hammer',
-            'C0W06X5': 'measuring-tape',
-            'K0W03JQ': 'multi-tool',
-            'S0W0BLO': 'wrench',
-            'AWOODS6': 'hammer',
-            'K0W0A2L': 'measuring-tape',
-            // Fallback assignments for testing
+        // Tool assignment data will be loaded dynamically from CSV (Toolbox assignments.csv)
+        // Provide small fallbacks for admin/test/demo to keep dev flow working if load fails
+        let toolAssignments = {
             'admin': 'multi-tool',
             'test': 'wrench',
             'demo': 'hammer'
         };
 
-        // Associate names mapping for display
-        const associateNames = {
-            'M0H01C4': 'Michelle Acevedo',
-            'C0A07J1': 'Charles Allen',
-            'S0A09UO': 'Shala Andrews',
-            'JGONZ79': 'Joann Baker',
-            'SEKINS': 'Shellene Beacham',
-            'ARBLUMA': 'Angela Bluma',
-            'D0B0KWR': 'Danielle Bootes',
-            'A0B091S': 'Ashley Boswell',
-            'K0B0DPK': 'Kelly Broome',
-            'A0B0K7I': 'April Browder',
-            'TMANGAN': 'Toni Budrow',
-            'J0C0KD0': 'Joe Campbell',
-            'K0C01FC': 'Kevin Chirino',
-            'A0C0LTZ': 'Allison Coker',
-            'M3COOPE': 'Mandi Cooper',
-            'TGCOX': 'Tiffanie Cox',
-            'SBCRAIG': 'Sarah Craig',
-            'TDAVI38': 'Tolliver Davis',
-            'JDODSO1': 'Jennifer Dodson',
-            'N0D00B1': 'Nektaria Droutsas',
-            'E0D05EC': 'Liz Dufour',
-            'EPDUNCA': 'Erika Duncan',
-            'AMEDGEC': 'Ashley Edgecomb',
-            'RELLIS2': 'Ryan Ellis',
-            'J0ENGEL': 'John Engel',
-            'WUF000B': 'Wanda Fernandez Roman',
-            'H0F01QK': 'Holly Flaker',
-            'N0F008X': 'Nathan Floyd',
-            'L2FOSTE': 'Latonya Foster',
-            'ALFOX': 'Andi Fox',
-            'R9FRANC': 'Robbie Francis',
-            'EGOAD': 'Elizabeth Goad',
-            'A0H0I9I': 'Anita Hart',
-            'S0H0H3V': 'Shannon Hereford',
-            'K0H00SF': 'Kathy Hill',
-            'RHOLDEN': 'Rashanda Holden',
-            'AHGUIDR': 'Alona Hollis',
-            'R0H0J8V': 'Ricardo Hruschka-Bonds',
-            'RWJ001T': 'Russell Jaynes',
-            'JJJ0086': 'Janine Johnson',
-            'C0J0ATN': 'Christina Johnson',
-            'A0K0BRJ': 'Adam Kinney',
-            'A0K025C': 'Ashley Kozlenko',
-            'A0L0LYH': 'Ana Lasa',
-            'E0L059A': 'Erin Launspach',
-            'D0LONG': 'David Long',
-            'KMAI2': 'Kristi Mai',
-            'C0M0L8N': 'Christina Manegold',
-            'AMARSH9': 'Aaron Marshall',
-            'SCMASTE': 'Sondra Masters',
-            'KMOSS': 'Karie Moss',
-            'K0O02SY': 'Kristine Olson',
-            'R0O00TD': 'Raley Oneill',
-            'HPALME1': 'Heidi Palmer',
-            'M0P00G2': 'Michael Palmer',
-            'B0P04M5': 'Brandon Paulino',
-            'MPERE85': 'Michelle Perez',
-            'MEVENSO': 'Misty Pettigrew',
-            'J0P15UW': 'Joana Pinto',
-            'AAHOSTE': 'April Prideau',
-            'B0R020K': 'Brittany Ralph',
-            'K0R0K1D': 'Kevin Reese',
-            'BMREICH': 'Brandon Reichard',
-            'MAREID': 'Marjorie Reid',
-            'T0R00BM': 'Trina Rusher',
-            'ERS000W': 'Liz Sanchez',
-            'NSKIDMO': 'Nathan Skidmore',
-            'L4MAY': 'Lacy Smith',
-            'SKSRIVA': 'Sanjiva Srivastava',
-            'LWOODS2': 'Lacey Swearingen',
-            'KTHOM14': 'Kathleen Thompson',
-            'RTOLLE': 'Rachel Tolle',
-            'M0V04J3': 'Maria Varela',
-            'LWADE': 'Lyndsay Wade',
-            'BPB000R': 'Paige Walker',
-            'K0W0D6U': 'Kenya Walker',
-            'T0W0LXZ': 'Tiffany Walker',
-            'YWARFIE': 'Yoni Warfield',
-            'S0W0LS4': 'Sara Weaver',
-            'C0W06X5': 'Carey Webb',
-            'K0W03JQ': 'Katie Wilson',
-            'S0W0BLO': 'Sarah Windholtz',
-            'AWOODS6': 'Amy Woods',
-            'K0W0A2L': 'Kate Wright',
-            // Fallback names for testing
+        let associateNames = {
             'admin': 'Administrator',
             'test': 'Test User',
             'demo': 'Demo User'
         };
+
+        // Map CSV assignment text to internal tool keys
+        function mapAssignedTool(raw) {
+            if (!raw) return null;
+            const s = raw.toString().toLowerCase();
+            if (s.includes('multi') || s.includes('adapter')) return 'multi-tool';
+            if (s.includes('hammer')) return 'hammer';
+            if (s.includes('tape') || s.includes('measure')) return 'measuring-tape';
+            if (s.includes('wrench')) return 'wrench';
+            return null;
+        }
+
+        // Load CSV (robust parser) and populate toolAssignments & associateNames
+    async function loadAssignmentsFromCSV(path = 'Toolbox assignments10.23.csv') {
+            try {
+                const res = await fetch(path + '?v=' + Date.now());
+                if (!res.ok) throw new Error('Failed to fetch CSV: ' + res.status);
+                const text = await res.text();
+                const rawLines = text.split(/\r?\n/).map(l => l.trim()).filter(l => l);
+                if (rawLines.length === 0) return;
+
+                // If the first line looks like a header, drop it
+                const first = rawLines[0].toLowerCase();
+                if (first.includes('userid') && first.includes('assigned')) rawLines.shift();
+
+                // Clear previous assignments except dev fallbacks
+                const fallbackKeys = {};
+                Object.keys(toolAssignments).forEach(k => { fallbackKeys[k] = toolAssignments[k]; });
+                toolAssignments = {};
+                // restore minimal fallbacks (keep values uppercased)
+                Object.keys(fallbackKeys).forEach(k => { toolAssignments[k.toUpperCase()] = fallbackKeys[k]; });
+
+                rawLines.forEach(line => {
+                    // Remove surrounding quotes if present
+                    let ln = line.replace(/^"|"$/g, '').trim();
+
+                    // Split into 3 parts: userid, name, assigned (assigned may contain commas so join rest)
+                    const parts = ln.split(',');
+                    if (parts.length < 2) return;
+                    const userIdRaw = parts[0].trim().replace(/^"|"$/g, '');
+                    const nameRaw = parts[1].trim().replace(/^"|"$/g, '');
+                    const assignedRaw = parts.slice(2).join(',').trim().replace(/^"|"$/g, '');
+
+                    if (!userIdRaw) return;
+
+                    const userId = userIdRaw.toUpperCase();
+                    const name = nameRaw;
+
+                    // Normalize empty or '#N/A'
+                    if (!assignedRaw || assignedRaw.toUpperCase() === '#N/A') {
+                        if (toolAssignments[userId]) delete toolAssignments[userId];
+                    } else {
+                        const key = mapAssignedTool(assignedRaw);
+                        if (key) toolAssignments[userId] = key;
+                    }
+
+                    associateNames[userId] = name;
+                });
+
+                console.log('Loaded', Object.keys(toolAssignments).length, 'assignments from CSV');
+            } catch (err) {
+                console.error('Error loading CSV assignments:', err);
+            }
+        }
 
         const tools = {
             'wrench': {
@@ -1543,7 +1105,7 @@
                 ]
             },
             'multi-tool': {
-                emoji: '⚙️',
+                emoji: '�⚙️',
                 image: 'multitool emoji.png?v=' + Math.random(),
                 name: 'The Multi-Tool',
                 description: 'You are the versatile problem solver!',
@@ -1659,9 +1221,6 @@
             elements.gameOver.style.display = 'none';
             elements.totalQuestions.textContent = gameData.questions.length;
 
-            // Scroll to top when starting game
-            scrollToTop();
-
             loadQuestion();
             updateDisplay();
         }
@@ -1761,8 +1320,6 @@
         }
 
         function restartGame() {
-            // Scroll to top when restarting
-            scrollToTop();
             startGame();
         }
 
@@ -1776,18 +1333,6 @@
         }
 
         // New functions for toolbox reveal
-        // Utility function to scroll to top of page
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                left: 0,
-                behavior: 'smooth'
-            });
-            // Fallback for older browsers
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        }
-
         function revealTool() {
             const userId = document.getElementById('user-id').value.trim();
             
@@ -1819,9 +1364,6 @@
             // Hide instructions modal and show toolbox
             document.getElementById('instructions-modal').style.display = 'none';
             document.getElementById('toolbox-screen').style.display = 'block';
-            
-            // Scroll to top when showing new screen
-            scrollToTop();
             
             // Automatically trigger toolbox opening after a brief delay
             setTimeout(() => {
@@ -1887,9 +1429,6 @@
             document.getElementById('toolbox-screen').style.display = 'none';
             document.getElementById('main-game').style.display = 'block';
             
-            // Scroll to top when showing new screen
-            scrollToTop();
-            
             // Display user's name and tool in the game header
             document.getElementById('user-tool-display').innerHTML = 
                 `<strong>Welcome, ${currentUser.name}!</strong><br>
@@ -1901,9 +1440,6 @@
             document.getElementById('toolbox-screen').style.display = 'none';
             document.getElementById('main-game').style.display = 'none';
             document.getElementById('networking-game').style.display = 'block';
-            
-            // Scroll to top when showing new screen
-            scrollToTop();
             
             // Update networking game header with user info
             const networkingSubtitle = document.querySelector('#networking-game .game-subtitle');
@@ -2035,11 +1571,11 @@
                 "What's your first instinct when a process isn't working?",
                 "How do you approach fixing communication breakdowns?",
                 "What do you do when you notice inefficiencies in the workflow?",
-                "Do you enjoy taking a complex, broken process and figuring out how to fix it?",
-                "Do you love to create a detailed, long-term strategy for a project before starting?",
-                "Are you drawn to analyzing data and metrics to make informed decisions?",
-                "When faced with a roadblock, do you instinctively look for creative, non-traditional solutions?",
-                "Are you often the one to 'connect the dots' between different ideas or departments?"
+                "I enjoy taking a complex, broken process and figuring out how to fix it.",
+                "I love to create a detailed, long-term strategy for a project before starting.",
+                "I'm drawn to analyzing data and metrics to make informed decisions.",
+                "When faced with a roadblock, my first instinct is to find a creative, non-traditional solution.",
+                "I am often the one to 'connect the dots' between different ideas or departments."
             ],
             'measuring-tape': [
                 "How do you typically track your team's progress?",
@@ -2047,11 +1583,11 @@
                 "How do you know when a project is on track?",
                 "What's your approach to setting realistic timelines?",
                 "How do you measure team performance?",
-                "When someone is struggling, are you the first to offer a listening ear and support?",
-                "Are you skilled at mediating conflicts and helping people find common ground?",
-                "Do you prioritize building strong, trusting relationships with your colleagues?",
-                "Do you find it easy to empathize with different perspectives, even if you don't agree with them?",
-                "Do you believe effective communication is more about listening than talking?"
+                "When someone is struggling, I'm the first to offer a listening ear and support.",
+                "I'm skilled at mediating conflicts and helping people find common ground.",
+                "I prioritize building strong, trusting relationships with my colleagues.",
+                "I find it easy to empathize with different perspectives, even if I don't agree with them.",
+                "I believe effective communication is more about listening than talking."
             ],
             'hammer': [
                 "What's your approach to starting new initiatives?",
@@ -2059,11 +1595,11 @@
                 "What do you do when laying groundwork for a project?",
                 "How do you establish strong team foundations?",
                 "What's your method for creating solid processes?",
-                "Do you find satisfaction in ensuring every policy and procedure is followed to the letter?",
-                "Are you the go-to person on your team for questions about HR regulations and compliance?",
-                "Are you most confident when you have a clear set of rules and guidelines to follow?",
-                "Do you take pride in your ability to manage multiple priorities and stay organized?",
-                "Do you enjoy the precision of working with numbers and creating budgets or compensation plans?"
+                "I find satisfaction in ensuring every policy and procedure is followed to the letter.",
+                "I'm the go-to person on my team for questions about HR regulations and compliance.",
+                "I'm most confident when I have a clear set of rules and guidelines to follow.",
+                "I take pride in my ability to manage multiple priorities and stay organized.",
+                "I enjoy the precision of working with numbers and creating budgets or compensation plans."
             ],
             'multi-tool': [
                 "How do you adapt when plans change unexpectedly?",
@@ -2071,11 +1607,11 @@
                 "How do you handle wearing multiple hats at work?",
                 "What's your approach to problem-solving complex issues?",
                 "How do you support team members with different needs?",
-                "Are you comfortable with ambiguity and can you quickly adjust your plans when new information arises?",
-                "Do you get energized by tackling new challenges and learning new skills on the fly?",
-                "Do you see change not as a threat but as an exciting opportunity for improvement?",
-                "Are you always looking for ways to innovate and improve existing HR practices?",
-                "Are you resilient and able to stay positive and productive when things don't go as planned?"
+                "I'm comfortable with ambiguity and can quickly adjust my plans when new information arises.",
+                "I get energized by tackling new challenges and learning new skills on the fly.",
+                "I see change not as a threat but as an exciting opportunity for improvement.",
+                "I am always looking for ways to innovate and improve existing HR practices.",
+                "I am resilient and can stay positive and productive when things don't go as planned."
             ]
         };
 
@@ -2118,7 +1654,7 @@
             networkingData.currentCategory = randomCategory;
             networkingData.currentQuestion = randomQuestion;
             
-            document.getElementById('question-category').innerHTML = `Looking for: ${getToolName(randomCategory)}`;
+            document.getElementById('question-category').textContent = `Looking for: ${getToolName(randomCategory)}`;
             document.getElementById('networking-question').textContent = randomQuestion;
             document.getElementById('current-question-card').style.display = 'block';
         }
@@ -2135,16 +1671,6 @@
                 'measuring-tape': '<img src="measuring tape emoji.png" alt="Measuring Tape" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Measuring Tape',
                 'hammer': '<img src="hammer emoji.png" alt="Hammer" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Hammer',
                 'multi-tool': '<img src="multitool emoji.png" alt="Multi-Tool" style="width: 16px; height: 16px; object-fit: contain; vertical-align: middle;"> The Multi-Tool'
-            };
-            return toolNames[toolKey];
-        }
-
-        function getToolNamePlainText(toolKey) {
-            const toolNames = {
-                'wrench': '🔧 The Wrench',
-                'measuring-tape': '📏 The Measuring Tape',
-                'hammer': '🔨 The Hammer',
-                'multi-tool': '⚙️ The Multi-Tool'
             };
             return toolNames[toolKey];
         }
@@ -2226,8 +1752,6 @@
 
         function restartNetworking() {
             initializeNetworkingGame();
-            // Scroll to top when restarting
-            scrollToTop();
         }
 
         function toggleScoringGuide() {
@@ -2247,9 +1771,9 @@
 
         function emailResults() {
             // Prepare email content
-            const subject = encodeURIComponent('Sam\'s Club Tools of the Trade - My Results');
+            const subject = encodeURIComponent('Sam\'s Club People Toolbox Challenge - My Results');
             
-            let emailBody = `Sam's Club Tools of the Trade Results\n`;
+            let emailBody = `Sam's Club People Toolbox Challenge Results\n`;
             emailBody += `=============================================\n\n`;
             
             // Add user information
@@ -2270,11 +1794,11 @@
             
             // Add networking results if available
             let totalNetworked = 0;
-            let networkingResults = `Tools of the Trade Results:\n`;
+            let networkingResults = `People Team Tools Challenge Results:\n`;
             networkingResults += `============================\n`;
             
             Object.keys(networkingData.foundPeople).forEach(tool => {
-                const toolName = getToolNamePlainText(tool);
+                const toolName = getToolName(tool);
                 const people = networkingData.foundPeople[tool].filter(name => name.length > 0);
                 totalNetworked += people.length;
                 
@@ -2293,14 +1817,14 @@
                 emailBody += `\nTotal Network Connections: ${totalNetworked}/8\n`;
                 
                 if (totalNetworked === 8) {
-                    emailBody += `🎉 Tools of the Trade COMPLETED!\n`;
+                    emailBody += `🎉 People Team Tools Challenge COMPLETED!\n`;
                 }
             } else {
-                emailBody += `Tools of the Trade: Not yet started\n`;
+                emailBody += `People Team Tools Challenge: Not yet started\n`;
             }
             
             emailBody += `\n\nGenerated on: ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}\n`;
-            emailBody += `Sam's Club Tools of the Trade\n`;
+            emailBody += `Sam's Club People Team Toolbox Challenge\n`;
             
             // Create mailto link
             const mailtoLink = `mailto:?subject=${subject}&body=${encodeURIComponent(emailBody)}`;
@@ -2312,18 +1836,116 @@
         function goBackToGame() {
             document.getElementById('networking-game').style.display = 'none';
             document.getElementById('main-game').style.display = 'block';
-            
-            // Scroll to top when showing new screen
-            scrollToTop();
         }
 
         // Initialize display
         elements.totalQuestions.textContent = gameData.questions.length;
-        
-        // Show instructions modal on load
-        window.addEventListener('load', function() {
+
+        // Load the latest assignments JSON on window load, then show modal
+        window.addEventListener('load', async function() {
+            // Prefer server-generated JSON (parse_output.json) for reliable client-side loading
+            if (typeof loadAssignmentsFromJSON === 'function') {
+                await loadAssignmentsFromJSON();
+            } else {
+                await loadAssignmentsFromCSV();
+            }
+            // After assignments load, show instructions modal
             document.getElementById('instructions-modal').style.display = 'flex';
+            // Also update the small assignments status panel (if present)
+            try { updateAssignmentsStatusFromMemory(); } catch(e) { /* ignore */ }
         });
+    </script>
+
+    <!-- Small overlay to reload assignments and show status -->
+    <div id="assignments-panel" style="position: fixed; right: 16px; top: 16px; z-index: 2000; text-align: right;">
+        <button class="control-btn" onclick="reloadAssignmentsAndRefresh()" style="padding:8px 12px; font-size:0.9em;">Reload Assignments & Refresh</button>
+        <div id="assignments-status" style="margin-top:8px; font-size:12px; color:#fff; background:rgba(0,0,0,0.45); padding:8px; border-radius:8px; display:none; width:220px; text-align:left;"></div>
+    </div>
+
+    <script>
+        // Show counts from the in-memory toolAssignments object
+        function updateAssignmentsStatusFromMemory() {
+            try {
+                const counts = { 'multi-tool':0, 'hammer':0, 'measuring-tape':0, 'wrench':0 };
+                Object.keys(toolAssignments).forEach(k => {
+                    const v = toolAssignments[k];
+                    if (v && counts.hasOwnProperty(v)) counts[v]++;
+                });
+
+                const total = Object.keys(toolAssignments).length;
+                const statusEl = document.getElementById('assignments-status');
+                statusEl.style.display = 'block';
+                statusEl.innerHTML = `Last loaded: ${new Date().toLocaleString()}<br>` +
+                    `Total assignments: ${total}<br>` +
+                    `Multi-tool: ${counts['multi-tool']} • Hammer: ${counts['hammer']} • Tape: ${counts['measuring-tape']} • Wrench: ${counts['wrench']}`;
+            } catch (e) {
+                console.error('Could not update assignment status:', e);
+            }
+        }
+
+        // Reload assignments (prefer JSON), update status, then refresh so UI reflects latest assignments
+        async function reloadAssignmentsAndRefresh() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = 'Reloading...';
+            try {
+                if (typeof loadAssignmentsFromJSON === 'function') {
+                    await loadAssignmentsFromJSON();
+                } else {
+                    await loadAssignmentsFromCSV();
+                }
+                updateAssignmentsStatusFromMemory();
+                // Give the user a moment to see the updated counts, then refresh
+                setTimeout(() => {
+                    window.location.reload();
+                }, 900);
+            } catch (e) {
+                alert('Failed to reload assignments: ' + e);
+                console.error(e);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Reload Assignments & Refresh';
+            }
+        }
+
+        // Load assignments from server-generated JSON (parse_output.json)
+        async function loadAssignmentsFromJSON(path = 'parse_output.json') {
+            try {
+                const res = await fetch(path + '?v=' + Date.now());
+                if (!res.ok) throw new Error('Failed to fetch assignments JSON: ' + res.status);
+                const json = await res.json();
+
+                // json.mapping is expected to be an object keyed by uppercase userId
+                if (!json || !json.mapping) {
+                    console.warn('Assignments JSON did not contain mapping');
+                    return;
+                }
+
+                // Clear existing (keep dev fallbacks if any)
+                const fallback = {};
+                Object.keys(toolAssignments).forEach(k => { fallback[k] = toolAssignments[k]; });
+                toolAssignments = {};
+
+                Object.keys(json.mapping).forEach(uid => {
+                    const entry = json.mapping[uid];
+                    const userKey = uid.toString().toUpperCase();
+                    const assignedKey = entry.assignedKey || null;
+                    if (assignedKey) toolAssignments[userKey] = assignedKey;
+                    associateNames[userKey] = entry.name || entry.userId || userKey;
+                });
+
+                // Restore any fallback dev keys that don't conflict
+                Object.keys(fallback).forEach(k => {
+                    const ku = k.toString().toUpperCase();
+                    if (!toolAssignments[ku]) toolAssignments[ku] = fallback[k];
+                });
+
+                console.log('Loaded', Object.keys(toolAssignments).length, 'assignments from JSON');
+            } catch (err) {
+                console.error('Error loading assignments JSON:', err);
+                throw err;
+            }
+        }
     </script>
 </body>
 </html>
