@@ -1797,7 +1797,8 @@
                 ]
             },
             'multi-tool': {
-                emoji: '�⚙️',
+                // Use a sensible unicode fallback plus an image file for reliable display
+                emoji: '🛠️',
                 image: 'multitool emoji.png?v=' + Math.random(),
                 name: 'The Multi-Tool',
                 description: 'You are the versatile problem solver!',
@@ -2208,9 +2209,10 @@
             document.getElementById('main-game').style.display = 'block';
             
             // Display user's name and tool in the game header
+            // Use the tool image for consistent display (handles multi-tool image file)
             document.getElementById('user-tool-display').innerHTML = 
                 `<strong>Welcome, ${currentUser.name}!</strong><br>
-                Your tool: ${currentUser.tool.emoji} ${currentUser.tool.name}<br>
+                Your tool: <img src="${currentUser.tool.image}" alt="${currentUser.tool.name}" style="width:20px;height:20px;vertical-align:middle;margin-right:6px;"> ${currentUser.tool.name}<br>
                 <small style="color: #0071ce;">${currentUser.tool.description}</small>`;
         }
 
@@ -2222,7 +2224,8 @@
             // Update networking game header with user info
             const networkingSubtitle = document.querySelector('#networking-game .game-subtitle');
             if (currentUser.name && currentUser.tool) {
-                networkingSubtitle.innerHTML = `Welcome ${currentUser.name}! (${currentUser.tool.emoji} ${currentUser.tool.name})<br>Find your team members and build your network!`;
+                // Use the tool image for the header so the multitool image file displays correctly
+                networkingSubtitle.innerHTML = `Welcome ${currentUser.name}! (<img src="${currentUser.tool.image}" alt="${currentUser.tool.name}" style="width:18px;height:18px;vertical-align:middle;margin-right:6px;"> ${currentUser.tool.name})<br>Find your team members and build your network!`;
             }
             
             // Reset networking game state
@@ -2432,13 +2435,17 @@
             networkingData.currentCategory = randomCategory;
             networkingData.currentQuestion = randomQuestion;
             
-            document.getElementById('question-category').textContent = `Looking for: ${getToolName(randomCategory)}`;
+            // Use innerHTML so the tool icon (<img> returned by getToolName) renders
+            document.getElementById('question-category').innerHTML = `Looking for: ${getToolName(randomCategory)}`;
             document.getElementById('networking-question').textContent = randomQuestion;
             document.getElementById('current-question-card').style.display = 'block';
         }
 
         function clearCurrentQuestion() {
+            // Hide and clear the displayed question and category so next open starts fresh
             document.getElementById('current-question-card').style.display = 'none';
+            document.getElementById('question-category').innerHTML = '';
+            document.getElementById('networking-question').textContent = '';
             networkingData.currentQuestion = null;
             networkingData.currentCategory = null;
         }
