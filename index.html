@@ -623,6 +623,61 @@
             margin-bottom: 30px;
         }
 
+        /* Cleaner layout for the Question Generator */
+        .question-generator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+
+        .question-generator .question-card {
+            max-width: 820px;
+            width: 100%;
+            padding: 22px;
+            border-radius: 12px;
+            border-left: none;
+            box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+            text-align: center;
+        }
+
+        .question-generator .question-category {
+            display: inline-block;
+            background: rgba(0,113,206,0.08);
+            color: #0071ce;
+            padding: 6px 12px;
+            border-radius: 999px;
+            margin-bottom: 8px;
+            font-size: 0.85em;
+            letter-spacing: 0.6px;
+            text-transform: none;
+            font-weight: 600;
+        }
+
+        .question-generator .question-text {
+            font-size: 1.15rem;
+            color: #1f2937;
+            margin: 6px 0 0 0;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        .generator-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 6px;
+        }
+
+        .generate-btn {
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 1em;
+            margin: 6px 4px;
+        }
+
         .question-card {
             background: white;
             padding: 20px;
@@ -856,9 +911,11 @@
                 <div class="question-category" id="question-category"></div>
                 <div class="question-text" id="networking-question"></div>
             </div>
-            <button class="generate-btn" onclick="generateNetworkingQuestion()">Generate Question to Ask</button>
-            <button class="generate-btn" onclick="clearCurrentQuestion()" style="background: #718096;">Clear Question</button>
-            <button class="generate-btn" onclick="toggleScoringGuide()" style="background: #38a169;">View Scoring Guide</button>
+            <div class="generator-controls">
+                <button class="generate-btn" onclick="generateNetworkingQuestion()">Generate Question</button>
+                <button class="generate-btn" onclick="clearCurrentQuestion()" style="background: #718096;">Clear</button>
+                <button class="generate-btn" onclick="toggleScoringGuide()" style="background: #38a169;">Scoring Guide</button>
+            </div>
         </div>
 
         <div class="scoring-guide" id="scoring-guide" style="display: none;">
