@@ -754,23 +754,67 @@
             font-size: 1.1em;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
+            /* General container scaling */
             .game-container {
-                padding: 20px;
-            }
-            
-            .answers {
-                grid-template-columns: 1fr;
-            }
-            
-            .score-board {
-                flex-direction: column;
-                gap: 15px;
+                padding: 16px;
+                width: 96%;
+                max-width: 420px;
+                border-radius: 12px;
             }
 
-            .tools-tracker {
-                grid-template-columns: 1fr;
+            /* Modal adjustments */
+            .modal {
+                padding: 18px;
+                max-width: 94%;
             }
+
+            .modal h2 { font-size: 1.4em; }
+            .modal p, .instructions-text ul { font-size: 0.95em; }
+
+            /* Toolbox scales down for phones */
+            .toolbox {
+                width: 100%;
+                height: 320px;
+                max-width: 360px;
+                margin: 12px auto 18px;
+                background-size: contain;
+            }
+
+            .tool-reveal { top: 60%; }
+            .tool-reveal img { width: 120px; height: 120px; }
+
+            .tool-name { font-size: 1.15em; }
+            .tool-summary { padding: 14px; border-radius: 12px; }
+
+            /* Make buttons and controls easier to tap */
+            .modal-btn, .control-btn, .generate-btn {
+                padding: 12px 14px;
+                font-size: 1em;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .generator-controls { display: flex; flex-direction: column; gap: 10px; align-items: stretch; }
+
+            /* Stack score and answers */
+            .answers { grid-template-columns: 1fr; }
+            .score-board { flex-direction: column; gap: 12px; }
+
+            /* Tools tracker: stack cards vertically and make inputs full width */
+            .tools-tracker { display: flex; flex-direction: column; gap: 12px; }
+            .tool-card { display: flex; gap: 12px; align-items: center; padding: 12px; }
+            .tool-icon img { width: 48px; height: 48px; }
+            .tool-title { font-size: 1em; }
+            .name-inputs { display: flex; flex-direction: column; gap: 8px; width: 100%; }
+            .name-input { width: 100%; }
+
+            /* Completion summary and network list spacing */
+            .completion-summary { padding: 18px; }
+            .network-list { padding: 12px; }
+
+            /* Header logo smaller */
+            .sams-club-logo img { max-width: 140px; height: auto; }
         }
     </style>
 </head>
@@ -1163,7 +1207,6 @@
                                 }
                                 assignmentsById = normalized;
                                 console.log('Assignments preloaded from embedded mapping —', Object.keys(PRELOADED_MAPPING).length, 'entries');
-                                setAssignmentsStatus('Assignments preloaded — ' + Object.keys(PRELOADED_MAPPING).length + ' entries', false);
                         } catch (e) {
                                 console.warn('Failed to normalize preloaded mapping', e);
                         }
